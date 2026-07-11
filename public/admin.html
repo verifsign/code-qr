@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administration — Vérification QR</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="card wide">
+  <div class="head">
+    <h1>Administration des documents</h1>
+    <p>Créer, mettre à jour et générer le QR code de vérification pour chaque stagiaire / document</p>
+  </div>
+  <div class="body">
+    <div class="field">
+      <label for="apiKey">Clé API (x-api-key)</label>
+      <input id="apiKey" type="password" placeholder="Colle ici la clé API définie côté serveur (.env)">
+      <div class="note">Cette clé reste uniquement dans ton navigateur (sessionStorage), elle n'est jamais enregistrée côté serveur ici.</div>
+    </div>
+
+    <div id="alerts"></div>
+
+    <h2>Nouveau document</h2>
+    <form id="docForm">
+      <div class="row">
+        <div class="field">
+          <label for="id">Identifiant (laisser vide pour générer)</label>
+          <input id="id" placeholder="ex: A7B7434617A74">
+        </div>
+        <div class="field">
+          <label for="statut">Statut</label>
+          <select id="statut">
+            <option>En cours</option>
+            <option selected>Terminé</option>
+            <option>Annulé</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="org">Organisme émetteur</label>
+          <input id="org" placeholder="ex: DATA FORMA">
+        </div>
+        <div class="field">
+          <label for="beneficiaire">Bénéficiaire / Stagiaire</label>
+          <input id="beneficiaire" placeholder="ex: Baptiste Bleteau">
+        </div>
+      </div>
+      <div class="field">
+        <label for="doc">Intitulé du document</label>
+        <input id="doc" placeholder="ex: Dossier d'audit — BTS NDRC">
+      </div>
+      <div class="field">
+        <label for="sha">Empreinte SHA-256 du PDF final (optionnel, si tu l'as déjà)</label>
+        <input id="sha" placeholder="calculée après génération du PDF, une fois signé">
+      </div>
+
+      <h2>Signataires</h2>
+      <div id="signers"></div>
+      <div class="toolbar">
+        <button type="button" class="btn-ghost" id="addSigner">+ Ajouter un signataire</button>
+      </div>
+
+      <div class="toolbar" style="margin-top:20px;">
+        <button type="submit" class="btn-primary" id="submitBtn">Créer le document</button>
+        <button type="button" class="btn-secondary" id="resetBtn">Réinitialiser</button>
+      </div>
+    </form>
+
+    <div id="qrResult"></div>
+
+    <h2>Documents existants</h2>
+    <div class="toolbar" style="margin-bottom:10px;">
+      <button type="button" class="btn-ghost" id="refreshList">Actualiser la liste</button>
+    </div>
+    <div id="list"><div class="note">Renseigne ta clé API puis clique sur « Actualiser la liste ».</div></div>
+  </div>
+</div>
+<script src="/admin.js"></script>
+</body>
+</html>

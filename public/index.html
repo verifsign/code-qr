@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification QR — Documents & stagiaires</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <h1>Service de vérification par QR code</h1>
+    <p>Consultation des informations de signature pour tous les documents / stagiaires</p>
+  </div>
+  <div class="body">
+    <p>
+      Ce service génère, pour chaque document (ex: attestation, dossier signé par un stagiaire),
+      une page de vérification accessible depuis un lien court du type
+      <span class="mono">/v/&lt;identifiant&gt;</span>, lisible aussi bien sur téléphone que sur ordinateur.
+    </p>
+    <p>
+      Le QR code imprimé sur un document n'embarque que ce lien : les informations affichées
+      (signataires, statut, dates, empreinte) sont toujours récupérées en direct depuis ce serveur,
+      ce qui permet de brancher les données sur un CRM externe et de les tenir à jour.
+    </p>
+    <div class="toolbar">
+      <a class="btn-primary" style="text-decoration:none;display:inline-block;" href="/admin">Ouvrir l'administration</a>
+      <a class="btn-ghost" style="text-decoration:none;display:inline-block;" href="https://github.com/verifsign/code-qr#readme" target="_blank" rel="noopener">Documentation</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

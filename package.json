@@ -1,0 +1,37 @@
+{
+  "name": "code-qr",
+  "version": "1.0.0",
+  "description": "Service de vérification par QR code pour les documents/attestations signés, généralisé à tous les stagiaires et branchable sur un CRM externe.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/verifsign/code-qr.git"
+  },
+  "keywords": [
+    "qr-code",
+    "verification",
+    "signature",
+    "crm"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/verifsign/code-qr/issues"
+  },
+  "homepage": "https://github.com/verifsign/code-qr#readme",
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "nanoid": "^5.1.16",
+    "qrcode": "^1.5.4"
+  }
+}
