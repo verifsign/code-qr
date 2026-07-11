@@ -87,6 +87,7 @@
       +   (data.doc ? '<div class="kv"><div class="k">Document</div><div class="v">' + Verification.esc(data.doc) + '</div></div>' : '')
       +   (data.beneficiaire ? '<div class="kv"><div class="k">Bénéficiaire</div><div class="v">' + Verification.esc(data.beneficiaire) + '</div></div>' : '')
       +   (data.creeLe ? '<div class="kv"><div class="k">Créé le</div><div class="v">' + Verification.esc(data.creeLe) + '</div></div>' : '')
+      +   (data.scelleLe ? '<div class="kv"><div class="k">Scellé le</div><div class="v">' + Verification.esc(data.scelleLe) + '</div></div>' : '')
       +   '<h2>Signataires</h2>'
       +   (sigs || '<div class="err">Aucun signataire.</div>')
       +   (data.sha
@@ -110,7 +111,7 @@
     if(raw.indexOf('d=') === 0) raw = raw.slice(2);
     if(!raw) return null;
     try{
-      return Verification.decodePayload(raw);
+      return Verification.normalizePayload(Verification.decodePayload(raw));
     }catch(e){
       return null;
     }
@@ -138,7 +139,7 @@
 
   var hashData = loadFromHash();
   if(hashData){
-    render(hashData);
+    render(Verification.normalizePayload(hashData));
     return;
   }
 
@@ -150,7 +151,7 @@
   }
 
   loadFromId(id)
-    .then(render)
+    .then(function(d){ render(Verification.normalizePayload(d)); })
     .catch(function(){
       showError('Document introuvable.<br>L\'identifiant <b>' + Verification.esc(id) + '</b> n\'existe pas ou n\'est plus disponible.');
     });

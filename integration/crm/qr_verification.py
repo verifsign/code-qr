@@ -89,6 +89,16 @@ def build_verification_url(base_url: str, data: dict, mode: str = 'id') -> str:
     return root + '?id=' + eid
 
 
+def build_legacy_hash_url(base_url: str, env: str, stag: str, org: str,
+                          sigs: list, seal: str = '') -> str:
+    """URL QR au format actuel du CRM (env/stag/seal dans le hash #d=)."""
+    payload = {'env': env, 'stag': stag, 'org': org, 'sigs': sigs}
+    if seal:
+        payload['seal'] = seal
+    root = base_url.rstrip('/') + '/'
+    return root + '#d=' + encode_payload(payload)
+
+
 def generate_qr_png(url: str, output_path: str, size: int = 512) -> None:
     """Génère un PNG QR code pointant vers l'URL de vérification."""
     import qrcode
