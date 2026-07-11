@@ -1,0 +1,14 @@
+{
+  "name": "code-qr",
+  "version": "1.0.0",
+  "description": "Vérification de documents signés via QR code — CRM DATA FORMA",
+  "type": "module",
+  "scripts": {
+    "qr": "node scripts/generate-qr.mjs",
+    "sync": "node scripts/sync-envelope.mjs",
+    "serve": "npx --yes serve . -p 4173"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

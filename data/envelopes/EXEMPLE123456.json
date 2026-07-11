@@ -1,0 +1,25 @@
+{
+  "id": "EXEMPLE123456",
+  "org": "DATA FORMA",
+  "doc": "Convention de stage — Exemple",
+  "statut": "Terminé",
+  "beneficiaire": "JEAN DUPONT",
+  "creeLe": "01/07/2026",
+  "sha": "remplacer_par_sha256_reel_du_pdf",
+  "sigs": [
+    {
+      "n": "SITBON RICHARD",
+      "r": "Gérant — DATA FORMA",
+      "d": "02/07/2026 à 10:15",
+      "e": "dataforma.direction@gmail.com",
+      "ip": "90.70.11.146"
+    },
+    {
+      "n": "JEAN DUPONT",
+      "r": "Stagiaire",
+      "d": "02/07/2026 à 14:30",
+      "e": "jean.dupont@example.com",
+      "ip": "176.140.211.27"
+    }
+  ]
+}
