@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de QR codes de vérification</title>
+<style>
+  :root{ --navy:#1E3A5F; --navy2:#183858; --ok:#2BA66F; --warn:#c0392b; --ink:#22303f; --muted:#5C7088; --line:#e4eaf0; --bg:#f4f7fb; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink);
+        font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; padding:16px; }
+  .wrap{ max-width:960px; margin:0 auto; }
+  h1{ font-size:22px; color:var(--navy); margin:0 0 4px; }
+  .sub{ color:var(--muted); font-size:13.5px; margin:0 0 20px; }
+  .panel{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:18px; box-shadow:0 4px 16px rgba(30,58,95,.06); }
+  .panel h2{ font-size:14px; text-transform:uppercase; letter-spacing:.5px; color:var(--navy); margin:0 0 14px; }
+  label{ display:block; font-size:12.5px; color:var(--muted); margin:10px 0 4px; font-weight:600; }
+  input, textarea, select{ width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:9px; font-size:14px; font-family:inherit; background:#fff; color:var(--ink); }
+  textarea{ min-height:130px; resize:vertical; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12.5px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:0 16px; }
+  .row-tabs{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .tab{ padding:8px 14px; border:1px solid var(--line); background:#fff; border-radius:999px; cursor:pointer; font-size:13px; font-weight:600; color:var(--muted); }
+  .tab.active{ background:var(--navy); color:#fff; border-color:var(--navy); }
+  .btn{ display:inline-block; padding:10px 16px; border:0; border-radius:10px; background:var(--navy); color:#fff; font-size:14px; font-weight:600; cursor:pointer; }
+  .btn.sec{ background:#fff; color:var(--navy); border:1px solid var(--navy); }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .hint{ font-size:12px; color:var(--muted); margin-top:6px; line-height:1.5; }
+  .msg{ font-size:13px; margin-top:12px; padding:10px 12px; border-radius:9px; display:none; }
+  .msg.ok{ background:rgba(43,166,111,.12); color:#1c7d52; display:block; }
+  .msg.bad{ background:rgba(192,57,43,.1); color:var(--warn); display:block; }
+  .cards{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px; margin-top:6px; }
+  .qcard{ border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; background:#fff; break-inside:avoid; }
+  .qcard .q{ width:180px; height:180px; margin:0 auto 10px; }
+  .qcard .q svg, .qcard .q img{ width:100%; height:100%; }
+  .qcard .n{ font-weight:700; font-size:14px; }
+  .qcard .i{ font-size:11.5px; color:var(--muted); margin-top:2px; word-break:break-all; }
+  .qcard .dl{ margin-top:8px; }
+  .qcard .dl a{ font-size:11.5px; color:var(--navy); cursor:pointer; text-decoration:underline; }
+  code{ background:#eef2f7; padding:1px 5px; border-radius:5px; font-size:12px; }
+  @media(max-width:640px){ .grid2{ grid-template-columns:1fr; } }
+  @media print{
+    body{ background:#fff; padding:0; }
+    .noprint{ display:none !important; }
+    .panel{ box-shadow:none; border:none; padding:0; }
+    .cards{ grid-template-columns:repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Générateur de QR codes de vérification</h1>
+  <p class="sub">Génère les QR codes qui pointent vers votre page de vérification — pour un stagiaire ou pour toute une liste issue de votre CRM.</p>
+
+  <!-- ------------------------------------------------------------------ -->
+  <div class="panel noprint">
+    <h2>Configuration générale</h2>
+    <div class="grid2">
+      <div>
+        <label>URL de votre page de vérification</label>
+        <input id="cfgUrl" placeholder="https://votre-organisme.github.io/code-qr/" />
+        <div class="hint">L'adresse où <code>index.html</code> est hébergé (GitHub Pages, votre site…).</div>
+      </div>
+      <div>
+        <label>Nom de votre organisme</label>
+        <input id="cfgOrg" placeholder="DATA FORMA" />
+      </div>
+    </div>
+    <div class="grid2">
+      <div>
+        <label>Mode du QR code</label>
+        <select id="cfgMode">
+          <option value="embed">Données embarquées dans le QR (aucun serveur requis)</option>
+          <option value="crm">Identifiant seul + registre CRM (data/registre.json)</option>
+        </select>
+        <div class="hint" id="modeHint"></div>
+      </div>
+      <div>
+        <label>Correction d'erreur</label>
+        <select id="cfgEcc">
+          <option value="M">M — standard</option>
+          <option value="L">L — capacité max (recommandé si QR trop dense)</option>
+          <option value="Q">Q</option>
+          <option value="H">H — plus robuste (moins de capacité)</option>
+        </select>
+      </div>
+    </div>
+    <label style="margin-top:14px">Signataire de l'organisme appliqué à tous (facultatif)</label>
+    <div class="grid2">
+      <div><input id="cfgOrgSigN" placeholder="Nom (ex. SITBON RICHARD)" /></div>
+      <div><input id="cfgOrgSigR" placeholder="Rôle (ex. Gérant DATA FORMA)" /></div>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------------------------ -->
+  <div class="panel noprint">
+    <div class="row-tabs">
+      <div class="tab active" data-tab="one">1 stagiaire</div>
+      <div class="tab" data-tab="many">Liste (CSV / JSON du CRM)</div>
+    </div>
+
+    <!-- --- Unitaire --- -->
+    <div id="tabOne">
+      <div class="grid2">
+        <div><label>Identifiant du document</label><input id="oId" placeholder="A7B7434617A74" /></div>
+        <div><label>Statut</label><input id="oStatut" placeholder="Terminé" /></div>
+      </div>
+      <div class="grid2">
+        <div><label>Bénéficiaire (stagiaire)</label><input id="oBenef" placeholder="BAPTISTE BLETEAU" /></div>
+        <div><label>Formation</label><input id="oFormation" placeholder="NEGOCIATION ET DIGITALISATION… (BTS)" /></div>
+      </div>
+      <div class="grid2">
+        <div><label>Intitulé du document</label><input id="oDoc" placeholder="Dossier d'audit" /></div>
+        <div><label>Date de création</label><input id="oDate" placeholder="05/05/2026" /></div>
+      </div>
+      <div class="grid2">
+        <div><label>Signature stagiaire — date/heure enregistrée</label><input id="oSigDate" placeholder="11/05/2026 à 16:30" /></div>
+        <div><label>Empreinte SHA-256 (facultatif)</label><input id="oSha" placeholder="aa2cdef5…" /></div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btnOne">Générer le QR code</button>
+      </div>
+    </div>
+
+    <!-- --- Masse --- -->
+    <div id="tabMany" style="display:none">
+      <label>Collez un export CSV ou JSON, ou importez un fichier</label>
+      <textarea id="bulkData" placeholder="CSV : id,beneficiaire,formation,doc,statut,date,sha,signataire_date&#10;A7B7434617A74,BAPTISTE BLETEAU,BTS NDRC,Dossier d'audit,Terminé,05/05/2026,,11/05/2026 à 16:30&#10;&#10;— OU un tableau JSON —&#10;[{&quot;id&quot;:&quot;A7B...&quot;,&quot;beneficiaire&quot;:&quot;...&quot;,&quot;sigs&quot;:[{&quot;n&quot;:&quot;...&quot;,&quot;r&quot;:&quot;Stagiaire&quot;,&quot;d&quot;:&quot;...&quot;}]}]"></textarea>
+      <div class="actions">
+        <input type="file" id="bulkFile" accept=".csv,.json,.txt" class="noprint" style="max-width:280px" />
+        <button class="btn" id="btnMany">Générer tous les QR codes</button>
+      </div>
+      <div class="hint">
+        Colonnes CSV reconnues (toutes facultatives sauf <code>id</code>) :
+        <code>id, beneficiaire, formation, doc, statut, date, sha, signataire_nom, signataire_role, signataire_email, signataire_ip, signataire_date</code>.
+        Par défaut, le bénéficiaire devient le signataire « Stagiaire ».
+      </div>
+    </div>
+
+    <div id="msg" class="msg"></div>
+  </div>
+
+  <!-- ------------------------------------------------------------------ -->
+  <div class="panel" id="outPanel" style="display:none">
+    <div class="noprint" style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
+      <h2 style="margin:0">Résultats <span id="count"></span></h2>
+      <div class="actions" style="margin:0">
+        <button class="btn sec" id="btnPrint">Imprimer</button>
+        <button class="btn sec" id="btnRegistre" style="display:none">Télécharger registre.json</button>
+      </div>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</div>
+
+<script src="assets/qrcode-generator.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  // ---- utilitaires ----------------------------------------------------------
+  function toB64Url(obj){
+    var json = JSON.stringify(obj);
+    var b64 = btoa(unescape(encodeURIComponent(json)));
+    return b64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  function esc(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function slug(x){ return String(x||'qr').replace(/[^a-z0-9_-]+/gi,'_').slice(0,40); }
+  function baseUrl(){
+    var u = ($('cfgUrl').value || '').trim();
+    if(!u) u = location.href.replace(/generateur\.html.*$/,'');
+    if(!/[\/#?]$/.test(u) && u.indexOf('#')<0 && u.indexOf('?')<0) u += '/';
+    return u;
+  }
+
+  // Nettoie l'objet en retirant les valeurs vides pour alléger le QR
+  function clean(obj){
+    var out = {};
+    Object.keys(obj).forEach(function(k){
+      var v = obj[k];
+      if(v==null || v==='' ) return;
+      if(Array.isArray(v)){
+        var arr = v.map(function(e){ return typeof e==='object'? clean(e): e; })
+                   .filter(function(e){ return e && (typeof e!=='object' || Object.keys(e).length); });
+        if(arr.length) out[k] = arr;
+      } else {
+        out[k] = v;
+      }
+    });
+    return out;
+  }
+
+  // Construit l'objet "document" normalisé
+  function buildDoc(src){
+    var doc = clean({
+      id: src.id,
+      org: src.org || $('cfgOrg').value.trim() || undefined,
+      doc: src.doc,
+      beneficiaire: src.beneficiaire,
+      formation: src.formation,
+      statut: src.statut,
+      date: src.date,
+      sha: src.sha,
+      sigs: src.sigs
+    });
+    return doc;
+  }
+
+  // Signataires par défaut : organisme (config) + stagiaire (bénéficiaire)
+  function defaultSigs(src){
+    if(Array.isArray(src.sigs) && src.sigs.length) return src.sigs;
+    var sigs = [];
+    var on = $('cfgOrgSigN').value.trim(), or = $('cfgOrgSigR').value.trim();
+    if(on) sigs.push({ n:on, r: or || undefined });
+    if(src.signataire_nom || src.beneficiaire){
+      sigs.push(clean({
+        n: src.signataire_nom || src.beneficiaire,
+        r: src.signataire_role || 'Stagiaire',
+        d: src.signataire_date || src.sigDate,
+        mail: src.signataire_email,
+        ip: src.signataire_ip
+      }));
+    }
+    return sigs;
+  }
+
+  function makeUrl(doc){
+    var mode = $('cfgMode').value;
+    var b = baseUrl();
+    if(mode === 'crm'){
+      return b + (b.indexOf('?')>=0 ? '&' : '?') + 'id=' + encodeURIComponent(doc.id||'');
+    }
+    return b + '#d=' + toB64Url(doc);
+  }
+
+  // ---- rendu QR -------------------------------------------------------------
+  function renderQR(text, ecc){
+    var qr = qrcode(0, ecc || 'M');
+    qr.addData(text);
+    qr.make(); // lève une exception si les données dépassent la capacité v40
+    return qr.createSvgTag({ cellSize:4, margin:4, scalable:true });
+  }
+
+  function svgToDataUrl(svg){
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  var lastDocs = [];
+
+  function renderCards(docs){
+    var ecc = $('cfgEcc').value;
+    var cards = $('cards');
+    cards.innerHTML = '';
+    var errors = 0;
+    docs.forEach(function(doc){
+      var url = makeUrl(doc);
+      var wrap = document.createElement('div');
+      wrap.className = 'qcard';
+      var svg;
+      try{ svg = renderQR(url, ecc); }
+      catch(e){
+        errors++;
+        wrap.innerHTML = '<div class="i" style="color:#c0392b">Données trop volumineuses pour un QR — '
+          + 'utilisez le mode « Identifiant seul + registre CRM » ou baissez la correction d\'erreur (L).</div>'
+          + '<div class="n">'+esc(doc.beneficiaire||doc.id)+'</div>';
+        cards.appendChild(wrap);
+        return;
+      }
+      var fname = slug((doc.beneficiaire||doc.id)) + '.svg';
+      wrap.innerHTML =
+          '<div class="q">'+svg+'</div>'
+        + '<div class="n">'+esc(doc.beneficiaire||doc.id)+'</div>'
+        + '<div class="i">'+esc(doc.id||'')+'</div>'
+        + '<div class="dl noprint"><a data-svg="'+esc(svgToDataUrl(svg))+'" data-name="'+esc(fname)+'">Télécharger (SVG)</a></div>';
+      cards.appendChild(wrap);
+    });
+
+    cards.querySelectorAll('a[data-svg]').forEach(function(a){
+      a.addEventListener('click', function(){
+        var l = document.createElement('a');
+        l.href = a.getAttribute('data-svg');
+        l.download = a.getAttribute('data-name');
+        document.body.appendChild(l); l.click(); l.remove();
+      });
+    });
+
+    $('count').textContent = '(' + docs.length + ')';
+    $('outPanel').style.display = 'block';
+    lastDocs = docs;
+
+    // registre.json seulement pertinent en mode CRM
+    $('btnRegistre').style.display = ($('cfgMode').value==='crm') ? 'inline-block' : 'none';
+
+    if(errors){
+      showMsg(errors + ' QR n\'ont pas pu être générés (données trop volumineuses). Voir ci-dessous.', 'bad');
+    }
+  }
+
+  function showMsg(text, kind){
+    var m = $('msg');
+    m.className = 'msg ' + (kind||'ok');
+    m.innerHTML = text;
+  }
+
+  // ---- CSV ------------------------------------------------------------------
+  function parseCSV(text){
+    var rows = [];
+    var row = [], field = '', inQ = false;
+    for(var i=0;i<text.length;i++){
+      var c = text[i];
+      if(inQ){
+        if(c==='"'){ if(text[i+1]==='"'){ field+='"'; i++; } else inQ=false; }
+        else field += c;
+      } else {
+        if(c==='"') inQ = true;
+        else if(c===','){ row.push(field); field=''; }
+        else if(c==='\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+        else if(c==='\r'){ /* ignore */ }
+        else field += c;
+      }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows.filter(function(r){ return r.length && r.some(function(x){ return x!==''; }); });
+  }
+
+  function csvToObjects(text){
+    var rows = parseCSV(text);
+    if(!rows.length) return [];
+    var headers = rows[0].map(function(h){ return h.trim().toLowerCase(); });
+    return rows.slice(1).map(function(r){
+      var o = {};
+      headers.forEach(function(h,i){ o[h] = (r[i]||'').trim(); });
+      return o;
+    });
+  }
+
+  // ---- entrées --------------------------------------------------------------
+  function collectOne(){
+    var src = {
+      id: $('oId').value.trim(),
+      statut: $('oStatut').value.trim(),
+      beneficiaire: $('oBenef').value.trim(),
+      formation: $('oFormation').value.trim(),
+      doc: $('oDoc').value.trim(),
+      date: $('oDate').value.trim(),
+      sigDate: $('oSigDate').value.trim(),
+      sha: $('oSha').value.trim()
+    };
+    if(!src.id && !src.beneficiaire){
+      showMsg('Renseignez au moins un identifiant ou un bénéficiaire.', 'bad');
+      return null;
+    }
+    if(!src.id) src.id = slug(src.beneficiaire).toUpperCase();
+    src.sigs = defaultSigs(src);
+    return buildDoc(src);
+  }
+
+  function collectMany(){
+    var raw = $('bulkData').value.trim();
+    if(!raw){ showMsg('Collez un CSV ou un JSON, ou importez un fichier.', 'bad'); return null; }
+    var list;
+    if(raw[0]==='[' || raw[0]==='{'){
+      try{
+        var j = JSON.parse(raw);
+        list = Array.isArray(j) ? j : (j.documents || j.stagiaires || Object.keys(j).map(function(k){ var e=j[k]; if(!e.id) e.id=k; return e; }));
+      }catch(e){ showMsg('JSON invalide : '+esc(e.message), 'bad'); return null; }
+    } else {
+      list = csvToObjects(raw);
+    }
+    if(!list || !list.length){ showMsg('Aucune ligne exploitable trouvée.', 'bad'); return null; }
+    var docs = list.map(function(src){
+      if(!src.id && src.beneficiaire) src.id = slug(src.beneficiaire).toUpperCase();
+      src.sigs = defaultSigs(src);
+      return buildDoc(src);
+    }).filter(function(d){ return d.id || d.beneficiaire; });
+    if(!docs.length){ showMsg('Aucune ligne avec un identifiant ou un bénéficiaire.', 'bad'); return null; }
+    return docs;
+  }
+
+  // ---- registre.json (mode CRM) --------------------------------------------
+  function downloadRegistre(){
+    var reg = {};
+    lastDocs.forEach(function(d){ if(d.id) reg[d.id] = d; });
+    var blob = new Blob([JSON.stringify(reg, null, 2)], {type:'application/json'});
+    var l = document.createElement('a');
+    l.href = URL.createObjectURL(blob);
+    l.download = 'registre.json';
+    document.body.appendChild(l); l.click(); l.remove();
+    URL.revokeObjectURL(l.href);
+  }
+
+  // ---- évènements -----------------------------------------------------------
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      var tab = t.getAttribute('data-tab');
+      $('tabOne').style.display = tab==='one' ? 'block' : 'none';
+      $('tabMany').style.display = tab==='many' ? 'block' : 'none';
+    });
+  });
+
+  $('cfgMode').addEventListener('change', function(){
+    $('modeHint').innerHTML = this.value==='crm'
+      ? 'Le QR ne contient qu\'un identifiant. La page lit <code>data/registre.json</code> : idéal pour révoquer/mettre à jour sans réimprimer.'
+      : 'Tout est dans le QR : fonctionne sans serveur, mais le QR est plus dense et n\'est pas modifiable après impression.';
+  });
+  $('cfgMode').dispatchEvent(new Event('change'));
+
+  $('btnOne').addEventListener('click', function(){
+    var doc = collectOne(); if(!doc) return;
+    showMsg('QR code généré.', 'ok');
+    renderCards([doc]);
+  });
+
+  $('btnMany').addEventListener('click', function(){
+    var docs = collectMany(); if(!docs) return;
+    showMsg(docs.length + ' document(s) traité(s).', 'ok');
+    renderCards(docs);
+  });
+
+  $('bulkFile').addEventListener('change', function(e){
+    var f = e.target.files[0]; if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){ $('bulkData').value = rd.result; showMsg('Fichier « '+esc(f.name)+' » chargé. Cliquez sur « Générer ».', 'ok'); };
+    rd.readAsText(f, 'utf-8');
+  });
+
+  $('btnPrint').addEventListener('click', function(){ window.print(); });
+  $('btnRegistre').addEventListener('click', downloadRegistre);
+
+})();
+</script>
+</body>
+</html>

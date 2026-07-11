@@ -1,0 +1,4 @@
+id,beneficiaire,formation,doc,statut,date,signataire_role,signataire_date,sha
+A7B7434617A74,JEAN DUPONT,"NEGOCIATION ET DIGITALISATION DE LA RELATION CLIENT (BTS)",Dossier d'audit,Terminé,05/05/2026,Stagiaire,11/05/2026 à 16:30,aa2cdef5a92cdd62a82cdbcfa72cda3ca62cd8a9a52cd716a42cd583a32cd3f0
+B2C8901234D56,MARIE MARTIN,"GESTION DE LA PME (BTS)",Attestation de fin de formation,Terminé,06/05/2026,Stagiaire,12/05/2026 à 10:15,
+C3D4567890E12,LUCAS BERNARD,"SUPPORT À L'ACTION MANAGÉRIALE (BTS)",Attestation de fin de formation,Terminé,07/05/2026,Stagiaire,13/05/2026 à 09:40,

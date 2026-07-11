@@ -1,0 +1,37 @@
+{
+  "A7B7434617A74": {
+    "id": "A7B7434617A74",
+    "org": "DATA FORMA",
+    "doc": "Dossier d'audit",
+    "beneficiaire": "JEAN DUPONT",
+    "formation": "NEGOCIATION ET DIGITALISATION DE LA RELATION CLIENT (BTS)",
+    "statut": "Terminé",
+    "date": "05/05/2026",
+    "sha": "aa2cdef5a92cdd62a82cdbcfa72cda3ca62cd8a9a52cd716a42cd583a32cd3f0",
+    "sigs": [
+      {
+        "n": "RESPONSABLE PÉDAGOGIQUE",
+        "r": "Gérant DATA FORMA",
+        "d": "11/05/2026 à 15:02"
+      },
+      {
+        "n": "JEAN DUPONT",
+        "r": "Stagiaire",
+        "d": "11/05/2026 à 16:30"
+      }
+    ]
+  },
+  "B2C8901234D56": {
+    "id": "B2C8901234D56",
+    "org": "DATA FORMA",
+    "doc": "Attestation de fin de formation",
+    "beneficiaire": "MARIE MARTIN",
+    "formation": "GESTION DE LA PME (BTS)",
+    "statut": "Terminé",
+    "date": "06/05/2026",
+    "sigs": [
+      { "n": "RESPONSABLE PÉDAGOGIQUE", "r": "Gérant DATA FORMA", "d": "12/05/2026 à 09:00" },
+      { "n": "MARIE MARTIN", "r": "Stagiaire", "d": "12/05/2026 à 10:15" }
+    ]
+  }
+}

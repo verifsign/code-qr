@@ -1,0 +1,10 @@
+# Registre réel exporté depuis le CRM (contient des données personnelles).
+# Ne pas versionner : déployez-le directement sur l'hébergement.
+data/registre.json
+
+# Fichiers système / éditeurs
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
