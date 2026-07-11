@@ -38,7 +38,32 @@ npm run qr -- --file data/envelopes/A7B7434617A74.json --mode hash
 
 Le PNG est créé dans `output/qr-{id}.png`. Intégrez cette image dans votre PDF d'attestation.
 
-## Brancher le CRM
+## Brancher le CRM Facturation V2 (Flask)
+
+Le module d'intégration est dans `integration/crm/`. Guide complet : [`integration/crm/INTEGRATION.md`](integration/crm/INTEGRATION.md).
+
+Résumé en 4 lignes dans `app.py` :
+
+```python
+from integration.crm import register_signature_module
+signature_service = register_signature_module(
+    app, get_db, OUTPUT_FOLDER,
+    verif_base_url='https://verifsign.github.io/code-qr/',
+    format_date_fr=format_date_fr,
+    code_qr_data_dir=os.path.join(BASE_DIR, '..', 'code-qr', 'data', 'envelopes'))
+```
+
+Workflow par stagiaire :
+1. `POST /api/signature/enveloppe` avec `dossier_id` → crée l'enveloppe
+2. `POST .../signer` à chaque signature (horodatage réel automatique)
+3. `POST .../sceller` avec le chemin du PDF → SHA-256 + export JSON + QR
+4. Insérer le PNG `output/qr-{id}.png` dans l'attestation
+
+La page statique accepte aussi l'API CRM : `?id=XXX&api=http://localhost:5050`
+
+---
+
+## Brancher le CRM (export JSON manuel)
 
 ### 1. Champs à utiliser (données RÉELLES)
 

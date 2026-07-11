@@ -116,8 +116,20 @@
     }
   }
 
+  function getApiBase(){
+    var params = new URLSearchParams(location.search);
+    var fromQuery = params.get('api');
+    if(fromQuery) return fromQuery.replace(/\/?$/, '');
+    if(window.VERIF_API_BASE) return String(window.VERIF_API_BASE).replace(/\/?$/, '');
+    return null;
+  }
+
   function loadFromId(id){
-    return fetch('data/envelopes/' + encodeURIComponent(id) + '.json')
+    var apiBase = getApiBase();
+    var url = apiBase
+      ? apiBase + '/api/signature/enveloppe/' + encodeURIComponent(id)
+      : 'data/envelopes/' + encodeURIComponent(id) + '.json';
+    return fetch(url)
       .then(function(res){
         if(!res.ok) throw new Error('not_found');
         return res.json();
