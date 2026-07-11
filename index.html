@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification de document</title>
+<style>
+  :root {
+    --navy: #1e3a5f;
+    --navy2: #183858;
+    --ok: #2ba66f;
+    --warn: #c47f12;
+    --ink: #22303f;
+    --muted: #5c7088;
+    --line: #e4eaf0;
+    --bg: #f4f7fb;
+    --danger: #b42318;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 16px;
+  }
+  .card {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(30, 58, 95, .08);
+  }
+  .head {
+    background: linear-gradient(135deg, var(--navy), var(--navy2));
+    color: #fff;
+    padding: 22px 20px;
+  }
+  .head h1 { margin: 0; font-size: 19px; }
+  .head p { margin: 6px 0 0; font-size: 12.5px; opacity: .85; }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .3);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); }
+  .body { padding: 18px 20px 22px; }
+  .kv {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 4px 12px;
+    font-size: 13.5px;
+    margin-bottom: 4px;
+  }
+  .kv .k { color: var(--muted); }
+  .kv .v { font-weight: 600; word-break: break-word; }
+  h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    color: var(--navy);
+    margin: 22px 0 10px;
+    padding-bottom: 7px;
+    border-bottom: 2px solid var(--line);
+  }
+  .sig {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 13px 14px;
+    margin-bottom: 10px;
+  }
+  .sig .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .sig .name { font-weight: 700; font-size: 15px; }
+  .sig .role { color: var(--muted); font-size: 12.5px; margin-top: 1px; }
+  .sig .when { font-size: 12.5px; margin-top: 6px; }
+  .sig .when b { color: var(--navy); }
+  .chip {
+    background: rgba(43, 166, 111, .12);
+    color: #1c7d52;
+    border: 1px solid rgba(43, 166, 111, .35);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .mono {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .foot {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .brand { font-weight: 700; color: var(--navy); }
+  .message {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px 16px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .message.error { color: var(--danger); }
+  .message.pending { color: var(--warn); }
+  @media (max-width: 420px) {
+    .kv { grid-template-columns: 1fr; gap: 1px; }
+    .kv .k { margin-top: 8px; }
+    .sig .top { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="card" id="card"><div class="message pending">Chargement...</div></div>
+<script>
+(function () {
+  "use strict";
+
+  var config = window.VERIFICATION_CONFIG || {};
+  var crmEndpoint = config.crmEndpoint || "";
+
+  function b64urlDecode(value) {
+    var normalized = String(value || "").replace(/-/g, "+").replace(/_/g, "/");
+    while (normalized.length % 4) normalized += "=";
+    var binary = atob(normalized);
+    try {
+      var bytes = new Uint8Array(binary.length);
+      for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return new TextDecoder("utf-8").decode(bytes);
+    } catch (e) {
+      return decodeURIComponent(escape(binary));
+    }
+  }
+
+  function esc(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function compact(value) {
+    return value == null || value === "" ? null : value;
+  }
+
+  function readEmbeddedData() {
+    var raw = (location.hash || "").replace(/^#/, "");
+    if (raw.indexOf("d=") === 0) raw = raw.slice(2);
+    if (!raw) return null;
+    return JSON.parse(b64urlDecode(raw));
+  }
+
+  function readDocumentId() {
+    var params = new URLSearchParams(location.search);
+    return params.get("id") || params.get("documentId") || params.get("ref");
+  }
+
+  function fetchFromCrm(id) {
+    if (!crmEndpoint || !id) return Promise.resolve(null);
+    var separator = crmEndpoint.indexOf("?") === -1 ? "?" : "&";
+    var url = crmEndpoint + separator + "id=" + encodeURIComponent(id);
+    return fetch(url, {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      credentials: config.withCredentials ? "include" : "same-origin"
+    }).then(function (response) {
+      if (!response.ok) throw new Error("Document introuvable dans le CRM.");
+      return response.json();
+    });
+  }
+
+  function normalizeSignature(signature) {
+    return {
+      n: compact(signature.n || signature.nom || signature.name || signature.fullName),
+      r: compact(signature.r || signature.role || signature.fonction),
+      d: compact(signature.d || signature.signedAt || signature.dateSignature || signature.date)
+    };
+  }
+
+  function normalizeData(data) {
+    data = data || {};
+    var signatures = data.sigs || data.signataires || data.signatures || [];
+    var hash = data.hash || {};
+    if (typeof hash === "string") hash = { value: hash };
+    return {
+      id: compact(data.id || data.documentId || data.ref),
+      org: compact(data.org || data.organisme || data.organization),
+      doc: compact(data.doc || data.document || data.intitule || data.title),
+      statut: compact(data.statut || data.status || data.state),
+      sigs: Array.isArray(signatures) ? signatures.map(normalizeSignature) : [],
+      hashLabel: compact(hash.label || data.hashLabel || "Empreinte du document ou des donnees signees"),
+      hashValue: compact(hash.value || hash.sha256 || data.sha || data.sha256),
+      source: compact(data.source || "CRM")
+    };
+  }
+
+  function renderMessage(message, type) {
+    document.getElementById("card").innerHTML =
+      '<div class="message ' + esc(type || "") + '">' + message + "</div>";
+  }
+
+  function render(data) {
+    var normalized = normalizeData(data);
+    var card = document.getElementById("card");
+    var signatures = normalized.sigs.map(function (signature) {
+      return '<div class="sig"><div class="top"><div>'
+        + '<div class="name">' + esc(signature.n || "Signataire") + '</div>'
+        + '<div class="role">' + esc(signature.r || "") + '</div></div>'
+        + '<span class="chip">Signe</span></div>'
+        + '<div class="when">Signe le <b>' + esc(signature.d || "date non fournie") + '</b></div></div>';
+    }).join("");
+
+    var html = ''
+      + '<div class="head">'
+      +   '<h1>Verification de document</h1>'
+      +   '<p>Informations enregistrees lors de la signature</p>'
+      +   (normalized.statut ? '<div class="status"><span class="dot"></span> Statut : ' + esc(normalized.statut) + '</div>' : '')
+      + '</div>'
+      + '<div class="body">'
+      +   '<div class="kv"><div class="k">Identifiant</div><div class="v">' + esc(normalized.id || "-") + '</div></div>'
+      +   (normalized.org ? '<div class="kv"><div class="k">Emis par</div><div class="v">' + esc(normalized.org) + '</div></div>' : '')
+      +   (normalized.doc ? '<div class="kv"><div class="k">Document</div><div class="v">' + esc(normalized.doc) + '</div></div>' : '')
+      +   '<h2>Signataires</h2>'
+      +   (signatures || '<div class="message">Aucun signataire fourni.</div>')
+      +   (normalized.hashValue
+          ? '<h2>' + esc(normalized.hashLabel) + '</h2><div class="mono">' + esc(normalized.hashValue) + '</div>'
+            + '<div class="note">Pour verifier l\'integrite, comparez cette empreinte avec celle calculee sur le fichier ou les donnees signes cote CRM.</div>'
+          : '')
+      +   '<div class="foot">'
+      +     'Cette page presente les informations fournies'
+      +     (normalized.org ? ' par <span class="brand">' + esc(normalized.org) + '</span>' : '')
+      +     ' et issues de la source <span class="brand">' + esc(normalized.source) + '</span>. '
+      +     'Les dates et empreintes affichees doivent correspondre aux enregistrements reels du CRM.'
+      +   '</div>'
+      + '</div>';
+
+    card.innerHTML = html;
+    document.title = "Verification - " + (normalized.id || "document");
+  }
+
+  Promise.resolve()
+    .then(function () {
+      var embedded = readEmbeddedData();
+      if (embedded) return embedded;
+      return fetchFromCrm(readDocumentId());
+    })
+    .then(function (data) {
+      if (!data) {
+        renderMessage("Aucune donnee a afficher.<br>Scannez le QR code d'un document ou ouvrez un lien de verification valide.", "");
+        return;
+      }
+      render(data);
+    })
+    .catch(function (error) {
+      renderMessage(esc(error.message || "Impossible de charger les informations du document."), "error");
+    });
+})();
+</script>
+</body>
+</html>
