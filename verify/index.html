@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification — DATA FORMA</title>
+<style>
+  :root{
+    --navy:#1E3A5F; --navy2:#183858; --ok:#2BA66F; --ink:#22303f;
+    --muted:#5C7088; --line:#e4eaf0; --bg:#f4f7fb; --red:#c0392b;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:16px;
+  }
+  .card{
+    max-width:660px; margin:0 auto; background:#fff;
+    border:1px solid var(--line); border-radius:16px;
+    overflow:hidden; box-shadow:0 6px 24px rgba(30,58,95,.08);
+  }
+  .head{
+    background:linear-gradient(135deg,var(--navy),var(--navy2));
+    color:#fff; padding:24px 22px;
+  }
+  .head-top{ display:flex; align-items:center; gap:14px; }
+  .logo-circle{
+    width:46px; height:46px; border-radius:50%;
+    background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.4);
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; flex-shrink:0;
+  }
+  .head h1{ margin:0; font-size:18px; line-height:1.3; }
+  .head .sub{ margin:3px 0 0; font-size:12.5px; opacity:.8; }
+  .status-row{ display:flex; align-items:center; gap:8px; margin-top:16px; flex-wrap:wrap; }
+  .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.3);
+    padding:5px 11px; border-radius:999px; font-size:12px; font-weight:600;
+  }
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--ok); flex-shrink:0; }
+  .body{ padding:20px 22px 24px; }
+  .kv{
+    display:grid; grid-template-columns:140px 1fr;
+    gap:5px 12px; font-size:13.5px; margin-bottom:5px; align-items:start;
+  }
+  .kv .k{ color:var(--muted); padding-top:1px; }
+  .kv .v{ font-weight:600; word-break:break-word; }
+  .section-title{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.7px;
+    color:var(--navy); margin:22px 0 10px; padding-bottom:7px;
+    border-bottom:2px solid var(--line); font-weight:700;
+  }
+  .sig{
+    border:1px solid var(--line); border-radius:12px;
+    padding:14px 15px; margin-bottom:10px;
+  }
+  .sig-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .sig-name{ font-weight:700; font-size:15px; }
+  .sig-role{ color:var(--muted); font-size:12.5px; margin-top:2px; }
+  .sig-email{ color:var(--muted); font-size:12px; margin-top:1px; }
+  .chip{
+    background:rgba(43,166,111,.12); color:#1c7d52;
+    border:1px solid rgba(43,166,111,.35);
+    font-size:11.5px; font-weight:700; padding:4px 9px;
+    border-radius:999px; white-space:nowrap; flex-shrink:0;
+  }
+  .sig-when{ font-size:12.5px; margin-top:8px; color:var(--ink); }
+  .sig-when b{ color:var(--navy); }
+  .sig-meta{ font-size:11.5px; color:var(--muted); margin-top:3px; }
+  .mono{
+    font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:11px; color:var(--muted); word-break:break-all;
+    background:#f8fafc; border:1px solid var(--line);
+    border-radius:8px; padding:10px 12px; margin-top:4px;
+  }
+  .note{ font-size:12px; color:var(--muted); margin-top:6px; line-height:1.55; }
+  .foot{
+    margin-top:20px; padding-top:14px; border-top:1px solid var(--line);
+    font-size:11.5px; color:var(--muted); line-height:1.6;
+  }
+  .brand{ font-weight:700; color:var(--navy); }
+  .err{
+    text-align:center; color:var(--muted);
+    padding:36px 20px; font-size:14px; line-height:1.7;
+  }
+  .err .icon{ font-size:36px; margin-bottom:12px; }
+  .divider{ border:none; border-top:1px solid var(--line); margin:18px 0; }
+  @media(max-width:440px){
+    .kv{ grid-template-columns:1fr; gap:1px; }
+    .kv .k{ margin-top:9px; font-size:11.5px; }
+    .kv .v{ font-size:13px; }
+    .head h1{ font-size:16px; }
+  }
+</style>
+</head>
+<body>
+<div class="card" id="card"><div class="err"><div class="icon">⏳</div>Chargement…</div></div>
+<script>
+(function(){
+  function b64urlDecode(s){
+    s = s.replace(/-/g,'+').replace(/_/g,'/');
+    while(s.length%4) s+='=';
+    try{ return decodeURIComponent(escape(atob(s))); }catch(e){ return atob(s); }
+  }
+  function esc(x){
+    return String(x==null?'':x)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  var raw = (location.hash||'').replace(/^#/,'');
+  if(raw.indexOf('d=')===0) raw=raw.slice(2);
+  var data=null;
+  if(raw){ try{ data=JSON.parse(b64urlDecode(raw)); }catch(e){ data=null; } }
+
+  var card=document.getElementById('card');
+
+  if(!data){
+    card.innerHTML='<div class="err">'
+      +'<div class="icon">🔍</div>'
+      +'<strong>Aucune donnée à afficher.</strong><br>'
+      +'Cette page s\'ouvre en scannant le QR code d\'un document émis par DATA FORMA.'
+      +'</div>';
+    return;
+  }
+
+  var sigs=(data.sigs||[]).map(function(s){
+    var ip=s.ip?'<div class="sig-meta">IP : '+esc(s.ip)+'</div>':'';
+    var email=s.e?'<div class="sig-email">'+esc(s.e)+'</div>':'';
+    return '<div class="sig">'
+      +'<div class="sig-top">'
+      +'  <div>'
+      +'    <div class="sig-name">'+esc(s.n)+'</div>'
+      +'    <div class="sig-role">'+esc(s.r||'')+'</div>'
+      +     email
+      +'  </div>'
+      +'  <span class="chip">✓ Signé</span>'
+      +'</div>'
+      +'<div class="sig-when">Signé le <b>'+esc(s.d||'')+'</b></div>'
+      +ip
+      +'</div>';
+  }).join('');
+
+  var shaBlock='';
+  if(data.sha){
+    shaBlock='<div class="section-title">Empreinte SHA-256 du document</div>'
+      +'<div class="mono">'+esc(data.sha)+'</div>'
+      +'<div class="note">Pour vérifier l\'intégrité : calculez le SHA-256 du fichier PDF et comparez-le à cette empreinte.</div>';
+  }
+
+  var meta='';
+  if(data.algo) meta+='<div class="kv"><div class="k">Algorithme</div><div class="v">'+esc(data.algo)+'</div></div>';
+  if(data.ts)   meta+='<div class="kv"><div class="k">Horodatage</div><div class="v">'+esc(data.ts)+'</div></div>';
+  if(data.loc)  meta+='<div class="kv"><div class="k">Localisation</div><div class="v">'+esc(data.loc)+'</div></div>';
+  if(data.nda)  meta+='<div class="kv"><div class="k">N° Déclaration</div><div class="v">'+esc(data.nda)+'</div></div>';
+
+  var html=''
+    +'<div class="head">'
+    +'  <div class="head-top">'
+    +'    <div class="logo-circle">🎓</div>'
+    +'    <div>'
+    +'      <h1>Attestation de signature électronique</h1>'
+    +'      <div class="sub">'+(data.org||'DATA FORMA')+' · Document officiel</div>'
+    +'    </div>'
+    +'  </div>'
+    +'  <div class="status-row">'
+    +(data.statut?'<div class="badge"><span class="dot"></span>'+esc(data.statut)+'</div>':'')
+    +(data.id?'<div class="badge">Réf. '+esc(data.id)+'</div>':'')
+    +'  </div>'
+    +'</div>'
+    +'<div class="body">'
+    +'  <div class="section-title">Informations du document</div>'
+    +(data.id  ?'<div class="kv"><div class="k">Identifiant</div><div class="v">'+esc(data.id)+'</div></div>':'')
+    +(data.org ?'<div class="kv"><div class="k">Émis par</div><div class="v">'+esc(data.org)+'</div></div>':'')
+    +(data.doc ?'<div class="kv"><div class="k">Document</div><div class="v">'+esc(data.doc)+'</div></div>':'')
+    +(data.ben ?'<div class="kv"><div class="k">Bénéficiaire</div><div class="v">'+esc(data.ben)+'</div></div>':'')
+    +(data.form?'<div class="kv"><div class="k">Formation</div><div class="v">'+esc(data.form)+'</div></div>':'')
+    +(data.dcr ?'<div class="kv"><div class="k">Date de création</div><div class="v">'+esc(data.dcr)+'</div></div>':'')
+    +(meta?'<hr class="divider">'+meta:'')
+    +'  <div class="section-title">Signataires</div>'
+    +(sigs||'<div class="err">Aucun signataire enregistré.</div>')
+    +shaBlock
+    +'  <div class="foot">'
+    +'    Ce document a été signé électroniquement via <span class="brand">'+(data.outil||'LMS DATA FORMA')+'</span>. '
+    +'    Cette page présente les informations enregistrées au moment de la signature. '
+    +'    Elle ne constitue pas une signature électronique qualifiée au sens du règlement (UE) n°910/2014 (eIDAS).'
+    +'  </div>'
+    +'</div>';
+
+  card.innerHTML=html;
+  document.title='Vérification — '+(data.id||data.ben||'document');
+})();
+</script>
+</body>
+</html>
