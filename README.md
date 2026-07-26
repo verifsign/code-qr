@@ -38,6 +38,17 @@ npm run qr -- --file data/envelopes/A7B7434617A74.json --mode hash
 
 Le PNG est créé dans `output/qr-{id}.png`. Intégrez cette image dans votre PDF d'attestation.
 
+## CERFA d'apprentissage automatique (l'Opcommerce)
+
+Le module [`integration/cerfa/`](integration/cerfa/README.md) génère le **CERFA 10103*14
+pré-rempli** à partir d'un dossier JSON du CRM, prêt à déposer sur le Web Services
+Entreprise de l'Opcommerce (ou à transmettre via l'API Convergence pour les CFA mandatés).
+
+```bash
+pip install -r integration/cerfa/requirements.txt
+python -m integration.cerfa --dossier integration/cerfa/exemple-dossier.json --sortie output/cerfa.pdf
+```
+
 ## Brancher le CRM Facturation V2 (Flask)
 
 Le module d'intégration est dans `integration/crm/`. Guide complet : [`integration/crm/INTEGRATION.md`](integration/crm/INTEGRATION.md).

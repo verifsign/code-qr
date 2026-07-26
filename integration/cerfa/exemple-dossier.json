@@ -1,0 +1,138 @@
+{
+  "modeContractuel": "1",
+
+  "employeur": {
+    "type": "prive",
+    "denomination": "BOULANGERIE MARTIN SARL",
+    "siret": "12345678900012",
+    "typeEmployeur": "11",
+    "employeurSpecifique": "0",
+    "adresse": {
+      "numero": "12",
+      "voie": "rue de la République",
+      "complement": "",
+      "codePostal": "75011",
+      "commune": "PARIS"
+    },
+    "telephone": "0140000000",
+    "courriel": "contact@boulangerie-martin.fr",
+    "codeApe": "1071C",
+    "effectif": "8",
+    "codeIdcc": "0843",
+    "attestationRegimeAssuranceChomage": false
+  },
+
+  "apprenti": {
+    "nomNaissance": "DURAND",
+    "nomUsage": "",
+    "prenom": "Lucas",
+    "nir": "1041275111222",
+    "dateNaissance": "2004-12-15",
+    "sexe": "M",
+    "departementNaissance": "75",
+    "communeNaissance": "PARIS",
+    "nationalite": "1",
+    "regimeSocial": "1",
+    "adresse": {
+      "numero": "3",
+      "voie": "avenue des Lilas",
+      "complement": "Bât. B",
+      "codePostal": "93100",
+      "commune": "MONTREUIL"
+    },
+    "telephone": "0600000000",
+    "courriel": "lucas.durand@example.fr",
+    "sportifHautNiveau": false,
+    "travailleurHandicape": false,
+    "situationAvantContrat": "1",
+    "dernierDiplomePrepare": "12",
+    "derniereClasse": "01",
+    "intituleDernierDiplome": "Baccalauréat professionnel Boulanger-Pâtissier",
+    "diplomePlusEleve": "12",
+    "projetCreationEntreprise": false
+  },
+
+  "representantLegal": null,
+
+  "maitresApprentissage": [
+    {
+      "nomNaissance": "MARTIN",
+      "prenom": "Sophie",
+      "dateNaissance": "1980-05-02",
+      "courriel": "sophie.martin@boulangerie-martin.fr",
+      "emploi": "Gérante - Boulangère",
+      "diplome": "Brevet de maîtrise Boulanger",
+      "niveauDiplome": "4"
+    }
+  ],
+
+  "attestations": {
+    "maitreApprentissageEligible": true,
+    "piecesJustificatives": true
+  },
+
+  "contrat": {
+    "type": "11",
+    "typeDerogation": "",
+    "numeroContratPrecedent": "",
+    "dateConclusion": "2026-08-25",
+    "dateDebutExecution": "2026-09-01",
+    "dateDebutFormationPratique": "2026-09-01",
+    "dateEffetAvenant": null,
+    "dateFin": "2028-08-31",
+    "dureeHebdoHeures": "35",
+    "dureeHebdoMinutes": "00",
+    "travauxDangereux": false,
+    "remuneration": [
+      {
+        "annee": 1,
+        "periode1": { "du": "2026-09-01", "au": "2026-12-14", "pourcentage": "27", "reference": "SMIC" },
+        "periode2": { "du": "2026-12-15", "au": "2027-08-31", "pourcentage": "43", "reference": "SMIC" }
+      },
+      {
+        "annee": 2,
+        "periode1": { "du": "2027-09-01", "au": "2028-08-31", "pourcentage": "51", "reference": "SMIC" }
+      }
+    ],
+    "salaireBrutMensuel": "486.49",
+    "caisseRetraite": "AGIRC-ARRCO",
+    "avantages": {
+      "nourriture": "3.10",
+      "logement": "",
+      "autre": ""
+    }
+  },
+
+  "formation": {
+    "cfaEntreprise": false,
+    "diplomeVise": "12",
+    "denominationCfa": "CFA DES MÉTIERS DE BOUCHE DE PARIS",
+    "intitulePrecis": "BP Boulanger",
+    "uaiCfa": "0750000A",
+    "siretCfa": "98765432100011",
+    "codeDiplome": "45022106",
+    "codeRncp": "RNCP38427",
+    "adresseCfa": {
+      "numero": "25",
+      "voie": "boulevard Voltaire",
+      "complement": "",
+      "codePostal": "75011",
+      "commune": "PARIS"
+    },
+    "dateDebutFormation": "2026-09-08",
+    "dateFinEpreuves": "2028-06-30",
+    "dureeHeures": "840",
+    "heuresDistance": "0",
+    "cfaEstLieuFormation": true,
+    "lieuFormation": {
+      "denomination": "",
+      "uai": "",
+      "siret": "",
+      "adresse": { "numero": "", "voie": "", "complement": "", "codePostal": "", "commune": "" }
+    }
+  },
+
+  "signature": {
+    "faitA": "PARIS"
+  }
+}
