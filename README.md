@@ -154,5 +154,41 @@ config.js               URL de base de production
 data/envelopes/         Une fiche JSON par document / stagiaire
 scripts/generate-qr.mjs Génération PNG
 scripts/sync-envelope.mjs Import depuis le CRM
+scripts/fill-cerfa.py   Remplissage automatique CERFA OPCOMMERCE (CLI)
 docs/                   Schéma et exemple d'export
+integration/crm/        Module Flask — signatures QR
+integration/opcommerce/ Module Python — automatisation CERFA OPCOMMERCE
 ```
+
+---
+
+## Automatisation CERFA OPCOMMERCE
+
+Remplit automatiquement les formulaires de demande de prise en charge
+(PDC, Pro-A, Apprentissage, AFPR) sur le portail OPCOMMERCE à partir des
+données CRM.
+
+### Installation rapide
+
+```bash
+pip install -r integration/opcommerce/requirements.txt
+playwright install chromium
+```
+
+### Lancer depuis la ligne de commande
+
+```bash
+export OPCOMMERCE_LOGIN="mon.email@entreprise.fr"
+export OPCOMMERCE_PASSWORD="motdepasse"
+
+# PDC depuis un fichier JSON
+python scripts/fill-cerfa.py --file integration/opcommerce/examples/dossier-pdc.json
+
+# Depuis la base CRM SQLite
+python scripts/fill-cerfa.py --dossier-id 42 --crm-db crm.db
+
+# Mode débogage (navigateur visible, pas de soumission)
+python scripts/fill-cerfa.py --file dossier.json --visible --dry-run --screenshots /tmp/debug
+```
+
+Guide complet : [`integration/opcommerce/README.md`](integration/opcommerce/README.md)

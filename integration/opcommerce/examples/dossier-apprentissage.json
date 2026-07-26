@@ -1,0 +1,30 @@
+{
+  "type_cerfa": "APPRENTISSAGE",
+  "participant": "BAPTISTE BLETEAU",
+  "titre_formation": "BTS NEGOCIATION ET DIGITALISATION DE LA RELATION CLIENT",
+  "date_debut": "2026-09-01",
+  "date_fin": "2028-06-30",
+  "nb_heures": 1400,
+  "cout_pedagogique": 7500.00,
+  "niveau_diplome": "5",
+
+  "organisme_nom": "DATA FORMA",
+  "organisme_nda": "11930811093",
+  "organisme_siret": "89233588100019",
+
+  "employeur_raison_sociale": "SARL EXEMPLE COMMERCE",
+  "employeur_siret": "12345678901234",
+  "employeur_adresse": "10 rue de la Paix",
+  "employeur_cp": "75001",
+  "employeur_ville": "PARIS",
+  "employeur_idcc": "3252",
+
+  "apprenti_nom": "BLETEAU",
+  "apprenti_prenom": "BAPTISTE",
+  "apprenti_naissance": "2005-03-22",
+  "apprenti_nationalite": "Française",
+
+  "maitre_apprentissage_nom": "SITBON",
+  "maitre_apprentissage_prenom": "RICHARD",
+  "diplome_prepare": "BTS NDRC"
+}

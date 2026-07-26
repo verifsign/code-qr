@@ -1,0 +1,26 @@
+{
+  "type_cerfa": "PDC",
+  "participant": "JEAN DUPONT",
+  "titre_formation": "NEGOCIATION ET DIGITALISATION DE LA RELATION CLIENT (BTS NDRC)",
+  "date_debut": "2026-09-01",
+  "date_fin": "2027-06-30",
+  "nb_heures": 1200,
+  "cout_pedagogique": 8500.00,
+
+  "organisme_nom": "DATA FORMA",
+  "organisme_nda": "11930811093",
+  "organisme_siret": "89233588100019",
+
+  "employeur_raison_sociale": "SARL EXEMPLE COMMERCE",
+  "employeur_siret": "12345678901234",
+  "employeur_adresse": "10 rue de la Paix",
+  "employeur_cp": "75001",
+  "employeur_ville": "PARIS",
+  "employeur_idcc": "3252",
+  "employeur_effectif": "12",
+
+  "stagiaire_nom": "DUPONT",
+  "stagiaire_prenom": "JEAN",
+  "stagiaire_naissance": "1998-04-15",
+  "stagiaire_emploi": "Conseiller de vente"
+}
