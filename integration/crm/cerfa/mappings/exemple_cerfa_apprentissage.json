@@ -1,0 +1,16 @@
+{
+  "_comment": "Exemple de mapping pour le Cerfa 10103 (contrat d'apprentissage). Les clés de gauche DOIVENT être remplacées par les vrais noms de champs de VOTRE fichier PDF (obtenus via GET /api/cerfa/champs?template=cerfa_10103.pdf ou CerfaService.list_template_fields()). Les valeurs à droite sont des gabarits {{a.b.c}} résolus depuis le contexte (dossier CRM + organisme + 'extra' passé à l'appel).",
+
+  "employeur_denomination": "{{organisme.nom}}",
+  "employeur_gerant": "{{organisme.gerant}}",
+
+  "apprenti_nom": "{{dossier.participant}}",
+  "apprenti_formation": "{{dossier.titre_formation}}",
+
+  "employeur_siret": "{{extra.employeur.siret}}",
+  "employeur_adresse": "{{extra.employeur.adresse}}",
+  "maitre_apprentissage_nom": "{{extra.maitre_apprentissage.nom}}",
+  "maitre_apprentissage_prenom": "{{extra.maitre_apprentissage.prenom}}",
+  "contrat_date_debut": "{{extra.contrat.date_debut}}",
+  "contrat_date_fin": "{{extra.contrat.date_fin}}"
+}

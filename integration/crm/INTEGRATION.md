@@ -173,3 +173,9 @@ automatiquement `{envelope_id}.json`. Il suffit de commit + push pour mettre à 
 | Variable | Défaut | Usage |
 |----------|--------|-------|
 | `VERIF_BASE_URL` | `https://verifsign.github.io/code-qr/` | URL encodée dans le QR |
+
+## 10. Automatiser le remplissage des CERFA (OPCO Commerce)
+
+Pour générer automatiquement les formulaires CERFA (ex. contrat
+d'apprentissage) à partir des dossiers du CRM, avant transmission à
+l'OPCO : voir [`CERFA.md`](CERFA.md).

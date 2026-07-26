@@ -42,6 +42,10 @@ Le PNG est créé dans `output/qr-{id}.png`. Intégrez cette image dans votre PD
 
 Le module d'intégration est dans `integration/crm/`. Guide complet : [`integration/crm/INTEGRATION.md`](integration/crm/INTEGRATION.md).
 
+Ce module inclut aussi l'**automatisation du remplissage des CERFA** (ex.
+contrat d'apprentissage, transmission à un OPCO tel qu'Opcommerce) : voir
+[`integration/crm/CERFA.md`](integration/crm/CERFA.md).
+
 Résumé en 4 lignes dans `app.py` :
 
 ```python
