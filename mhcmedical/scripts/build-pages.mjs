@@ -48,6 +48,10 @@ const cta = `<div class="cta-band">
 
 const note = `<div class="note">La prise en charge est effectuée selon les conditions en vigueur et sous réserve de l'accord de votre caisse d'assurance maladie.</div>`;
 
+function photo(file, alt, base = '') {
+  return `<div class="category-photo"><img src="${base}assets/images/${file}" alt="${alt}" loading="lazy"></div>`;
+}
+
 const pages = [
   {
     file: 'vous-etes-patient.html',
@@ -117,7 +121,13 @@ const pages = [
       <div class="team-grid">
         <div class="team-card"><div class="team-card__photo" aria-hidden="true">👤</div><p class="team-card__name">Notre équipe</p><p class="team-card__role">Conseillers matériel médical</p></div>
       </div>
-      <div class="note" style="margin-top:32px;"><strong>Photos à venir</strong> — Les photos de l'équipe et de la devanture seront ajoutées prochainement, avec l'accord de chaque collaborateur. En attendant, venez nous rencontrer au magasin !</div>
+      <div class="store-photo" style="margin:24px 0;">
+        <img src="assets/images/magasin/interieur-accueil.png" alt="Accueil du magasin MHC à Marseille" loading="lazy">
+      </div>
+      <div class="store-photo" style="margin:24px 0;">
+        <img src="assets/images/magasin-devanture.png" alt="Devanture du magasin MHC à Marseille" loading="lazy">
+      </div>
+      <div class="note" style="margin-top:16px;"><strong>Photos de l'équipe à venir</strong> — avec l'accord de chaque collaborateur.</div>
       <p style="margin-top:24px;"><a href="le-magasin.html">Voir l'adresse et les horaires →</a></p>
       ${cta}`
   },
@@ -208,6 +218,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Mobilité' }],
     hero: '<h1>Mobilité et déplacement</h1><p>Fauteuils roulants, déambulateurs, cannes — retrouver votre autonomie en toute sécurité.</p>',
     body: `
+      ${photo('equipements/mobilite.png', 'Rayon mobilité du magasin MHC — fauteuils roulants et déambulateurs', '../')}
       <ul>
         <li>Fauteuils roulants manuels et électriques</li>
         <li>Déambulateurs et rollators</li>
@@ -229,6 +240,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Chambre' }],
     hero: '<h1>Chambre et lit médicalisé</h1><p>Confort, sécurité et prévention des escarres pour des nuits sereines.</p>',
     body: `
+      ${photo('equipements/chambre.png', 'Lits médicalisés — livraison et installation à domicile par MHC', '../')}
       <ul>
         <li>Lits médicalisés et lits articulés</li>
         <li>Matelas anti-escarres et surmatelas</li>
@@ -292,6 +304,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Diagnostic' }],
     hero: '<h1>Diagnostic et surveillance</h1><p>Le suivi à domicile, prescrit par votre médecin.</p>',
     body: `
+      ${photo('equipements/diagnostic.png', 'Appareils médicaux en magasin MHC — tensiomètres, oxymètres, thermomètres', '../')}
       <ul>
         <li>Tensiomètres</li>
         <li>Oxymètres de pouls</li>
@@ -346,11 +359,11 @@ const pages = [
     body: `
       <div class="note">Nous ne commercialisons que les dispositifs des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché.</div>
       <div class="guide-list">
-        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__icon">🦽</div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
-        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__icon">🛏️</div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
+        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/mobilite.png" alt="Rayon mobilité MHC"></div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
+        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/chambre.png" alt="Lits médicalisés MHC"></div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
         <a href="equipements/salle-de-bain.html" class="guide-item"><div class="guide-item__icon">🚿</div><div><h2 class="guide-item__title">Salle de bain et WC</h2><p class="guide-item__text">Barres d'appui, sièges de douche, rehausseurs</p></div></a>
         <a href="equipements/vie-quotidienne.html" class="guide-item"><div class="guide-item__icon">🍽️</div><div><h2 class="guide-item__title">Vie quotidienne</h2><p class="guide-item__text">Aides aux repas, habillage, préhension</p></div></a>
-        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__icon">💓</div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
+        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/diagnostic.png" alt="Appareils médicaux MHC"></div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
       </div>
       ${cta}`
   },
@@ -382,10 +395,16 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Le magasin' }],
     hero: '<h1>Le magasin</h1><p>Un magasin, des gens. Venez nous rencontrer à Marseille.</p>',
     body: `
+      <div class="store-photo" style="margin-bottom:24px;">
+        <img src="assets/images/magasin/interieur-accueil.png" alt="Intérieur du magasin MHC Medical Health and Care" loading="lazy">
+      </div>
+      <div class="store-photo" style="margin-bottom:32px;">
+        <img src="assets/images/magasin-devanture.png" alt="Devanture du magasin MHC Medical Health and Care à Marseille" loading="lazy">
+      </div>
       <div class="store-grid">
         <div class="store-info">
           <h3 style="margin-top:0;">Adresse</h3><p><strong>185 avenue de Saint Louis</strong><br>13015 Marseille</p>
-          <h3>Horaires</h3><p>Lun–ven : 9h–12h / 14h30–18h</p>
+          <h3>Horaires</h3><p>Lun–ven : 9h–12h30 / 14h30–18h</p>
           <h3>Téléphone</h3><p><a href="tel:+33777778947" style="font-size:22px;font-weight:700;">07 77 77 89 47</a></p>
           <h3>Quoi apporter ?</h3>
           <ul><li>Ordonnance médicale</li><li>Carte Vitale</li><li>Attestation mutuelle</li></ul>
