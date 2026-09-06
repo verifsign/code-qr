@@ -564,6 +564,49 @@ a:hover { color: var(--teal); }
 }
 .pro-banner h2 { font-size: 26px; margin: 0 0 12px; color: var(--white); }
 .pro-banner p { margin: 0; opacity: 0.92; font-size: 17px; max-width: 560px; }
+.pro-banner__img {
+  flex: 0 0 min(280px, 100%);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.pro-banner__img img { width: 100%; height: auto; display: block; }
+
+/* ── Parcours patient (étapes illustrées) ── */
+.journey-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin: 0 0 40px;
+}
+.journey-step h3 {
+  font-size: 17px;
+  color: var(--blue);
+  margin: 12px 0 6px;
+}
+.journey-step p {
+  font-size: 15px;
+  color: var(--gray-600);
+  margin: 0;
+}
+.journey-step .category-photo { margin-bottom: 0; }
+
+/* ── Page parapharmacie ── */
+.parapharma-section {
+  margin: 40px 0;
+  padding-top: 32px;
+  border-top: 1px solid var(--gray-200);
+}
+.parapharma-section:first-of-type { border-top: none; padding-top: 0; }
+.parapharma-section h2 { color: var(--blue); margin-top: 0; }
+
+@media (max-width: 900px) {
+  .journey-steps { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .journey-steps { grid-template-columns: 1fr; }
+  .pro-banner { flex-direction: column; align-items: flex-start; }
+}
 
 /* ── Store section ── */
 .store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }

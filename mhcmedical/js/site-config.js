@@ -35,6 +35,7 @@ window.MHC = {
         { label: 'Diagnostic et surveillance', href: 'equipements/diagnostic.html' }
       ]
     },
+    { label: 'Parapharmacie', href: 'parapharmacie.html' },
     { label: 'Professionnels de santé', href: 'professionnels-sante.html' },
     { label: 'Le magasin', href: 'le-magasin.html' },
     { label: 'Contact', href: 'contact.html' }

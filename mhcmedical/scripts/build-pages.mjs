@@ -48,9 +48,9 @@ const cta = `<div class="cta-band">
 
 const note = `<div class="note">La prise en charge est effectuée selon les conditions en vigueur et sous réserve de l'accord de votre caisse d'assurance maladie.</div>`;
 
-function photo(file, alt, base = '') {
-  const webp = file.replace(/\.png$/, '.webp');
-  return `<div class="category-photo"><img src="${base}assets/images/${webp}" alt="${alt}" width="1600" loading="lazy"></div>`;
+function img(file, alt, base = '', priority = false) {
+  const perf = priority ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
+  return `<div class="category-photo"><img src="${base}assets/images/${file}" alt="${alt}" width="1600" ${perf}></div>`;
 }
 
 const pages = [
@@ -221,7 +221,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Mobilité' }],
     hero: '<h1>Mobilité et déplacement</h1><p>Fauteuils roulants, déambulateurs, cannes — retrouver votre autonomie en toute sécurité.</p>',
     body: `
-      ${photo('equipements/mobilite.png', 'Rayon mobilité du magasin MHC — fauteuils roulants et déambulateurs', '../')}
+      ${img('magasin/rayon-mobilite.webp', 'Fauteuils roulants et déambulateurs dans le rayon mobilité du magasin MHC', '../', true)}
       <ul>
         <li>Fauteuils roulants manuels et électriques</li>
         <li>Déambulateurs et rollators</li>
@@ -243,7 +243,10 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Chambre' }],
     hero: '<h1>Chambre et lit médicalisé</h1><p>Confort, sécurité et prévention des escarres pour des nuits sereines.</p>',
     body: `
-      ${photo('equipements/chambre.png', 'Lits médicalisés — livraison et installation à domicile par MHC', '../')}
+      ${img('magasin/rayon-chambre.webp', 'Lit médicalisé et table de lit présentés en magasin', '../', true)}
+      ${img('domicile/lit-medicalise-domicile.webp', 'Lit médicalisé installé dans une chambre à domicile', '../')}
+      ${img('domicile/matelas-anti-escarres.webp', 'Lit médicalisé équipé d\'un matelas anti-escarres à air', '../')}
+      ${img('domicile/installation-lit-domicile.webp', 'Techniciens MHC installant un lit médicalisé à domicile', '../')}
       <ul>
         <li>Lits médicalisés et lits articulés</li>
         <li>Matelas anti-escarres et surmatelas</li>
@@ -265,6 +268,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Salle de bain' }],
     hero: '<h1>Salle de bain et toilettes</h1><p>Sécuriser les moments du quotidien : toilette, douche, transferts.</p>',
     body: `
+      ${img('magasin/rayon-salle-de-bain.webp', 'Chaise de douche, tabouret et rehausseur WC dans le rayon salle de bain', '../', true)}
       <ul>
         <li>Barres d'appui murales et de baignoire</li>
         <li>Sièges de douche et de bain</li>
@@ -286,6 +290,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Vie quotidienne' }],
     hero: '<h1>Vie quotidienne</h1><p>Des aides pour conserver votre autonomie au quotidien.</p>',
     body: `
+      ${img('magasin/rayon-vie-quotidienne.webp', 'Aides aux repas et à la préhension présentées en magasin', '../', true)}
       <ul>
         <li>Aides aux repas (couverts ergonomiques, plateaux)</li>
         <li>Aides à l'habillage</li>
@@ -307,7 +312,7 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Diagnostic' }],
     hero: '<h1>Diagnostic et surveillance</h1><p>Le suivi à domicile, prescrit par votre médecin.</p>',
     body: `
-      ${photo('equipements/diagnostic.png', 'Appareils médicaux en magasin MHC — tensiomètres, oxymètres, thermomètres', '../')}
+      ${img('magasin/rayon-diagnostic.webp', 'Tensiomètres, thermomètres et oxymètres du rayon diagnostic', '../', true)}
       <ul>
         <li>Tensiomètres</li>
         <li>Oxymètres de pouls</li>
@@ -327,6 +332,28 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Vous êtes patient', href: 'vous-etes-patient.html' }, { label: 'Comment ça marche' }],
     hero: '<h1>Comment ça marche</h1><p>Apportez votre ordonnance, on s\'occupe du reste.</p>',
     body: `
+      <div class="journey-steps">
+        <div class="journey-step">
+          ${img('parcours/etape-1-ordonnance.webp', 'Ordonnance et carte Vitale posées sur le comptoir du magasin', '', true)}
+          <h3>1. Votre médecin vous prescrit</h3>
+          <p>Apportez l'ordonnance et votre carte Vitale au magasin.</p>
+        </div>
+        <div class="journey-step">
+          ${img('parcours/etape-2-remise-ordonnance.webp', 'Remise d\'une ordonnance au comptoir d\'accueil MHC')}
+          <h3>2. Vous venez au magasin</h3>
+          <p>Nous accueillons votre dossier et répondons à vos questions.</p>
+        </div>
+        <div class="journey-step">
+          ${img('parcours/etape-3-carte-vitale.webp', 'Lecture de la carte Vitale sur le lecteur SESAM-Vitale')}
+          <h3>3. Nous traitons la prise en charge</h3>
+          <p>Lecture de la carte Vitale et constitution du dossier si besoin.</p>
+        </div>
+        <div class="journey-step">
+          ${img('parcours/etape-4-remise-materiel.webp', 'Remise du matériel médical à un client en magasin')}
+          <h3>4. Nous vous équipons</h3>
+          <p>Remise du matériel, explications et facturation directe CPAM/mutuelle.</p>
+        </div>
+      </div>
       <h2>Faut-il une ordonnance ?</h2>
       <p>Oui, pour tout le matériel pris en charge. Pour les produits de confort, aucune ordonnance n'est nécessaire.</p>
       <h2>Combien ça coûte ?</h2>
@@ -362,13 +389,60 @@ const pages = [
     body: `
       <div class="note">Nous ne commercialisons que les dispositifs des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché.</div>
       <div class="guide-list">
-        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/mobilite.webp" alt="Rayon mobilité MHC" width="280" loading="lazy"></div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
-        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/chambre.webp" alt="Lits médicalisés MHC" width="280" loading="lazy"></div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
-        <a href="equipements/salle-de-bain.html" class="guide-item"><div class="guide-item__icon">🚿</div><div><h2 class="guide-item__title">Salle de bain et WC</h2><p class="guide-item__text">Barres d'appui, sièges de douche, rehausseurs</p></div></a>
-        <a href="equipements/vie-quotidienne.html" class="guide-item"><div class="guide-item__icon">🍽️</div><div><h2 class="guide-item__title">Vie quotidienne</h2><p class="guide-item__text">Aides aux repas, habillage, préhension</p></div></a>
-        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/diagnostic.webp" alt="Appareils médicaux MHC" width="280" loading="lazy"></div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
+        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-mobilite.webp" alt="Fauteuils roulants et déambulateurs dans le rayon mobilité du magasin MHC" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
+        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-chambre.webp" alt="Lit médicalisé et table de lit présentés en magasin" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
+        <a href="equipements/salle-de-bain.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-salle-de-bain.webp" alt="Chaise de douche, tabouret et rehausseur WC dans le rayon salle de bain" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Salle de bain et WC</h2><p class="guide-item__text">Barres d'appui, sièges de douche, rehausseurs</p></div></a>
+        <a href="equipements/vie-quotidienne.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-vie-quotidienne.webp" alt="Aides aux repas et à la préhension présentées en magasin" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Vie quotidienne</h2><p class="guide-item__text">Aides aux repas, habillage, préhension</p></div></a>
+        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-diagnostic.webp" alt="Tensiomètres, thermomètres et oxymètres du rayon diagnostic" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
       </div>
       ${cta}`
+  },
+  {
+    file: 'parapharmacie.html',
+    title: 'Parapharmacie',
+    description: 'Parapharmacie et produits de confort à Marseille : hygiène, soin, bébé, orthopédie, chaussures médicales et uniformes.',
+    page: 'parapharmacie.html',
+    trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Parapharmacie' }],
+    hero: '<h1>Parapharmacie</h1><p>Hygiène, soin et bien-être pour toute la famille — en vente libre, sans ordonnance.</p>',
+    body: `
+      ${img('magasin/rayon-parapharmacie.webp', 'Rayon hygiène, soin et nutrition bébé du magasin MHC', '', true)}
+      <div class="note">Ces produits sont proposés en vente libre, sans ordonnance. Ils ne font pas l'objet d'une prise en charge par l'Assurance Maladie. Notre équipe vous conseille en magasin.</div>
+      <p>Au-delà du matériel médical, notre magasin propose une sélection de produits d'hygiène, de soin et de bien-être pour toute la famille. Passez nous voir, nous prenons le temps de vous conseiller.</p>
+      <section class="parapharma-section">
+        <h2>Hygiène &amp; soin</h2>
+        <p>Soins du visage et du corps, hygiène quotidienne, soins des mains et des pieds, produits d'hygiène nasale, désinfection et petits soins.</p>
+        ${img('magasin/rayon-parapharmacie.webp', 'Rayon hygiène, soin et nutrition bébé du magasin MHC')}
+      </section>
+      <section class="parapharma-section">
+        <h2>Espace bébé</h2>
+        <p>Nutrition infantile, soins et hygiène du bébé, accessoires de puériculture, produits du quotidien pour les tout-petits.</p>
+      </section>
+      <section class="parapharma-section">
+        <h2>Soin et beauté</h2>
+        <p>Soins visage et corps, produits capillaires, accessoires de beauté et de bien-être.</p>
+      </section>
+      <section class="parapharma-section">
+        <h2>Santé nature</h2>
+        <p>Compléments alimentaires, phytothérapie, huiles essentielles, produits de bien-être naturel.</p>
+      </section>
+      <section class="parapharma-section">
+        <h2>Confort et maintien</h2>
+        <p>Ceintures lombaires, genouillères, chevillères, coudières, attelles poignet et doigts, colliers cervicaux, bas et chaussettes de contention.</p>
+        ${img('magasin/rayon-orthopedie.webp', 'Rayon genouillères et orthopédie du magasin MHC')}
+      </section>
+      <section class="parapharma-section">
+        <h2>Chaussures et confort</h2>
+        <p>Sabots médicaux, chaussures professionnelles pour les métiers de santé, chaussons chauffants et chaussures de confort.</p>
+        ${img('magasin/rayon-chaussures.webp', 'Sabots et chaussures médicales présentés en magasin')}
+      </section>
+      <section class="parapharma-section">
+        <h2>Uniformes professionnels</h2>
+        <p>Blouses, tuniques et pantalons, tenues pour les professionnels de santé, accessoires. Personnalisation possible.</p>
+        ${img('magasin/rayon-uniformes.webp', 'Rayon uniformes professionnels de santé')}
+      </section>
+      <div class="cta-band">
+        <p>Une question sur un produit ? Appelez-nous au <a href="tel:+33777778947">07 77 77 89 47</a> ou passez au magasin, du lundi au vendredi de 9h à 12h30 et de 14h30 à 18h.</p>
+      </div>`
   },
   {
     file: 'professionnels-sante.html',
@@ -378,14 +452,19 @@ const pages = [
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Professionnels de santé' }],
     hero: '<h1>Un partenaire pour vos patients</h1><p>De la prescription à l\'installation, nous gérons tout l\'administratif.</p>',
     body: `
+      ${img('services/partenariat-soignants.webp', 'Échange d\'un dossier entre un conseiller MHC et une soignante', '', true)}
       <h2>Ce que nous délivrons</h2>
       <p>Dispositifs médicaux Titres I et IV : mobilité, chambre, salle de bain, vie quotidienne, diagnostic. <a href="nos-equipements.html">Voir le catalogue →</a></p>
       <h2>Zone d'intervention</h2>
       <p>Magasin et livraison/installation dans les Bouches-du-Rhône. Point de vente à Marseille 15<sup>e</sup>.</p>
       <h2>Délais</h2>
+      ${img('services/livraison-camion.webp', 'Véhicule de livraison MHC en tournée dans les Bouches-du-Rhône')}
       <p>En stock : jour même ou sous 48h. Avec accord préalable : dossier constitué et suivi assuré.</p>
       <h2>Gestion administrative</h2>
       <ul><li>Ententes préalables</li><li>Télétransmission CPAM et mutuelles</li><li>Tiers payant intégral</li><li>Suivi et renouvellement</li></ul>
+      <h2>Accompagnement</h2>
+      ${img('services/conseil-domicile.webp', 'Conseiller MHC expliquant l\'usage d\'un tensiomètre à domicile')}
+      <p>Nous accompagnons vos patients à domicile pour l'installation et l'utilisation du matériel.</p>
       <h2>Contact prescripteurs</h2>
       <p><strong>Tél :</strong> <a href="tel:+33777778947">07 77 77 89 47</a> · <strong>Email :</strong> <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></p>
       <p><a href="contact.html?type=prescripteur" class="btn btn--primary">Demande d'équipement pour un patient</a></p>`
@@ -399,10 +478,18 @@ const pages = [
     hero: '<h1>Le magasin</h1><p>Un magasin, des gens. Venez nous rencontrer à Marseille.</p>',
     body: `
       <div class="store-photo" style="margin-bottom:24px;">
-        <img src="assets/images/magasin/interieur-accueil.webp" alt="Intérieur du magasin MHC Medical Health and Care" width="1600" loading="lazy">
+        <img src="assets/images/magasin/interieur-accueil.webp" alt="Intérieur du magasin MHC Medical Health and Care" width="1600" loading="lazy" decoding="async">
       </div>
-      <div class="store-photo" style="margin-bottom:32px;">
-        <img src="assets/images/magasin-devanture.webp" alt="Devanture du magasin MHC Medical Health and Care à Marseille" width="1600" loading="lazy">
+      <div class="store-photo" style="margin-bottom:24px;">
+        <img src="assets/images/magasin-devanture.webp" alt="Devanture du magasin MHC Medical Health and Care à Marseille" width="1600" loading="lazy" decoding="async">
+      </div>
+      <div class="store-grid" style="margin-bottom:32px;">
+        <div class="store-photo">
+          <img src="assets/images/devanture-verticale.webp" alt="Entrée du magasin MHC, 185 avenue de Saint-Louis à Marseille" width="1600" loading="lazy" decoding="async">
+        </div>
+        <div class="store-photo">
+          <img src="assets/images/magasin/rayon-parapharmacie.webp" alt="Rayon hygiène, soin et nutrition bébé du magasin MHC" width="1600" loading="lazy" decoding="async">
+        </div>
       </div>
       <div class="store-grid">
         <div class="store-info">
