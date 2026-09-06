@@ -12,12 +12,14 @@
   <a href="#main" class="skip-link">Aller au contenu principal</a>
   <div id="site-header"></div>
   <main id="main">
-    <div class="page-hero">
-      <div class="container">
-        <div id="breadcrumbs" data-trail='[{"label":"Accueil","href":"index.html"},{"label":"Professionnels de santé"}]'></div>
-        <h1>Un partenaire pour vos patients</h1><p>De la prescription à l'installation, nous gérons tout l'administratif.</p>
+    <div class="page-hero page-hero--photo">
+        <div class="page-hero__bg"><img src="assets/images/services/partenariat-soignants.webp" alt="Échange de dossier entre conseiller MHC et soignante" width="1600" height="900" fetchpriority="high"></div>
+        <div class="page-hero__overlay" aria-hidden="true"></div>
+        <div class="container page-hero__content">
+          <div id="breadcrumbs" data-trail='[{"label":"Accueil","href":"index.html"},{"label":"Professionnels de santé"}]'></div>
+          <h1>Un partenaire pour vos patients</h1><p>De la prescription à l'installation, nous gérons tout l'administratif.</p>
+        </div>
       </div>
-    </div>
     <div class="content"><div class="container">
       <div class="category-photo"><img src="assets/images/services/partenariat-soignants.webp" alt="Échange d'un dossier entre un conseiller MHC et une soignante" width="1600" fetchpriority="high"></div>
       <h2>Ce que nous délivrons</h2>
@@ -34,7 +36,59 @@
       <p>Nous accompagnons vos patients à domicile pour l'installation et l'utilisation du matériel.</p>
       <h2>Contact prescripteurs</h2>
       <p><strong>Tél :</strong> <a href="tel:+33777778947">07 77 77 89 47</a> · <strong>Email :</strong> <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></p>
-      <p><a href="contact.html?type=prescripteur" class="btn btn--primary">Demande d'équipement pour un patient</a></p></div></div>
+      
+      <section class="prescriber-form" id="prescripteur">
+        <h2>Demande d'équipement pour un patient</h2>
+        <p class="prescriber-form__intro">Remplissez ce formulaire en 30 secondes — nous rappelons le patient ou vous contactons rapidement. <strong>Pas de données médicales détaillées</strong> (diagnostic, ordonnance).</p>
+        <div class="note" id="prescripteur-error" style="display:none;margin-bottom:16px;">Une erreur est survenue. Réessayez ou appelez le <a href="tel:+33777778947">07 77 77 89 47</a>.</div>
+        <form class="form prescriber-form__form" id="prescripteur-form" action="prescripteur.php" method="post" novalidate>
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Ne pas remplir</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            <input type="hidden" name="_ts" id="prescripteur-ts" value="">
+          </div>
+          <div class="prescriber-form__grid">
+            <div class="form-group"><label for="prescriber_name">Nom du prescripteur</label><input type="text" id="prescriber_name" name="prescriber_name" required maxlength="120" autocomplete="name"></div>
+            <div class="form-group"><label for="prescriber_role">Qualité / profession</label>
+              <select id="prescriber_role" name="prescriber_role" required>
+                <option value="">Choisir…</option>
+                <option value="medecin">Médecin</option>
+                <option value="infirmier">Infirmier(ère)</option>
+                <option value="kine">Kinésithérapeute</option>
+                <option value="cadre">Cadre de santé / établissement</option>
+                <option value="autre">Autre professionnel</option>
+              </select>
+            </div>
+            <div class="form-group"><label for="prescriber_phone">Téléphone prescripteur</label><input type="tel" id="prescriber_phone" name="prescriber_phone" required autocomplete="tel" maxlength="20"></div>
+            <div class="form-group"><label for="prescriber_email">Email prescripteur</label><input type="email" id="prescriber_email" name="prescriber_email" autocomplete="email"></div>
+            <div class="form-group"><label for="patient_name">Nom du patient</label><input type="text" id="patient_name" name="patient_name" required maxlength="120"></div>
+            <div class="form-group"><label for="patient_phone">Téléphone du patient</label><input type="tel" id="patient_phone" name="patient_phone" required maxlength="20"></div>
+            <div class="form-group form-group--full"><label for="equipment_type">Type de matériel demandé</label>
+              <select id="equipment_type" name="equipment_type" required>
+                <option value="">Choisir…</option>
+                <option value="mobilite">Mobilité (fauteuil, déambulateur…)</option>
+                <option value="chambre">Chambre / lit médicalisé</option>
+                <option value="salle-de-bain">Salle de bain / WC</option>
+                <option value="vie-quotidienne">Vie quotidienne</option>
+                <option value="diagnostic">Diagnostic / surveillance</option>
+                <option value="autre">Autre (préciser en commentaire)</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full"><label for="urgency">Degré d'urgence</label>
+              <select id="urgency" name="urgency" required>
+                <option value="normal">Normal (sous une semaine)</option>
+                <option value="48h">Sous 48 heures</option>
+                <option value="urgent">Urgent (jour même si possible)</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full"><label for="comment">Commentaire libre</label>
+              <textarea id="comment" name="comment" maxlength="2000" placeholder="Précisions utiles sans données médicales sensibles"></textarea>
+              <p class="form-hint">Ne saisissez pas de diagnostic ni le contenu détaillé de l'ordonnance.</p>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--primary">Envoyer la demande</button>
+        </form>
+      </section></div></div>
   </main>
   <div id="site-footer"></div>
   <script src="js/site-config.js"></script>

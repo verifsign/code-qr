@@ -9,8 +9,23 @@ import { fileURLToPath } from 'url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-function shell({ title, description, page, base = '', trail = [], content }) {
+function shell({ title, description, page, base = '', trail = [], heroImage = null, heroAlt = '', content }) {
   const trailJson = JSON.stringify(trail);
+  const heroBlock = heroImage
+    ? `<div class="page-hero page-hero--photo">
+        <div class="page-hero__bg"><img src="${base}assets/images/${heroImage}" alt="${heroAlt}" width="1600" height="900" fetchpriority="high"></div>
+        <div class="page-hero__overlay" aria-hidden="true"></div>
+        <div class="container page-hero__content">
+          <div id="breadcrumbs" data-trail='${trailJson.replace(/'/g, '&#39;')}'></div>
+          ${content.hero}
+        </div>
+      </div>`
+    : `<div class="page-hero">
+        <div class="container">
+          <div id="breadcrumbs" data-trail='${trailJson.replace(/'/g, '&#39;')}'></div>
+          ${content.hero}
+        </div>
+      </div>`;
   return `<!DOCTYPE html>
 <html lang="fr" data-base="${base}">
 <head>
@@ -25,12 +40,7 @@ function shell({ title, description, page, base = '', trail = [], content }) {
   <a href="#main" class="skip-link">Aller au contenu principal</a>
   <div id="site-header"></div>
   <main id="main">
-    <div class="page-hero">
-      <div class="container">
-        <div id="breadcrumbs" data-trail='${trailJson.replace(/'/g, '&#39;')}'></div>
-        ${content.hero}
-      </div>
-    </div>
+    ${heroBlock}
     <div class="content"><div class="container">${content.body}</div></div>
   </main>
   <div id="site-footer"></div>
@@ -48,6 +58,60 @@ const cta = `<div class="cta-band">
 
 const note = `<div class="note">La prise en charge est effectuée selon les conditions en vigueur et sous réserve de l'accord de votre caisse d'assurance maladie.</div>`;
 
+const prescriberForm = `
+      <section class="prescriber-form" id="prescripteur">
+        <h2>Demande d'équipement pour un patient</h2>
+        <p class="prescriber-form__intro">Remplissez ce formulaire en 30 secondes — nous rappelons le patient ou vous contactons rapidement. <strong>Pas de données médicales détaillées</strong> (diagnostic, ordonnance).</p>
+        <div class="note" id="prescripteur-error" style="display:none;margin-bottom:16px;">Une erreur est survenue. Réessayez ou appelez le <a href="tel:+33777778947">07 77 77 89 47</a>.</div>
+        <form class="form prescriber-form__form" id="prescripteur-form" action="prescripteur.php" method="post" novalidate>
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Ne pas remplir</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            <input type="hidden" name="_ts" id="prescripteur-ts" value="">
+          </div>
+          <div class="prescriber-form__grid">
+            <div class="form-group"><label for="prescriber_name">Nom du prescripteur</label><input type="text" id="prescriber_name" name="prescriber_name" required maxlength="120" autocomplete="name"></div>
+            <div class="form-group"><label for="prescriber_role">Qualité / profession</label>
+              <select id="prescriber_role" name="prescriber_role" required>
+                <option value="">Choisir…</option>
+                <option value="medecin">Médecin</option>
+                <option value="infirmier">Infirmier(ère)</option>
+                <option value="kine">Kinésithérapeute</option>
+                <option value="cadre">Cadre de santé / établissement</option>
+                <option value="autre">Autre professionnel</option>
+              </select>
+            </div>
+            <div class="form-group"><label for="prescriber_phone">Téléphone prescripteur</label><input type="tel" id="prescriber_phone" name="prescriber_phone" required autocomplete="tel" maxlength="20"></div>
+            <div class="form-group"><label for="prescriber_email">Email prescripteur</label><input type="email" id="prescriber_email" name="prescriber_email" autocomplete="email"></div>
+            <div class="form-group"><label for="patient_name">Nom du patient</label><input type="text" id="patient_name" name="patient_name" required maxlength="120"></div>
+            <div class="form-group"><label for="patient_phone">Téléphone du patient</label><input type="tel" id="patient_phone" name="patient_phone" required maxlength="20"></div>
+            <div class="form-group form-group--full"><label for="equipment_type">Type de matériel demandé</label>
+              <select id="equipment_type" name="equipment_type" required>
+                <option value="">Choisir…</option>
+                <option value="mobilite">Mobilité (fauteuil, déambulateur…)</option>
+                <option value="chambre">Chambre / lit médicalisé</option>
+                <option value="salle-de-bain">Salle de bain / WC</option>
+                <option value="vie-quotidienne">Vie quotidienne</option>
+                <option value="diagnostic">Diagnostic / surveillance</option>
+                <option value="autre">Autre (préciser en commentaire)</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full"><label for="urgency">Degré d'urgence</label>
+              <select id="urgency" name="urgency" required>
+                <option value="normal">Normal (sous une semaine)</option>
+                <option value="48h">Sous 48 heures</option>
+                <option value="urgent">Urgent (jour même si possible)</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full"><label for="comment">Commentaire libre</label>
+              <textarea id="comment" name="comment" maxlength="2000" placeholder="Précisions utiles sans données médicales sensibles"></textarea>
+              <p class="form-hint">Ne saisissez pas de diagnostic ni le contenu détaillé de l'ordonnance.</p>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--primary">Envoyer la demande</button>
+        </form>
+      </section>`;
+
 function img(file, alt, base = '', priority = false) {
   const perf = priority ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
   return `<div class="category-photo"><img src="${base}assets/images/${file}" alt="${alt}" width="1600" ${perf}></div>`;
@@ -61,6 +125,8 @@ const pages = [
     page: 'vous-etes-patient.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Vous êtes patient' }],
     hero: '<h1>Vous êtes patient</h1><p>Vous avez une ordonnance et vous voulez savoir comment ça se passe ? On vous explique tout, simplement.</p>',
+    heroImage: 'parcours/etape-2-remise-ordonnance.webp',
+    heroAlt: 'Remise d\'une ordonnance au comptoir d\'accueil MHC',
     body: `
       <p>Que vous soyez en perte d'autonomie, en sortie d'hospitalisation ou simplement en besoin d'un équipement médical, nous sommes là pour vous accompagner.</p>
       <div class="guide-list">
@@ -77,6 +143,8 @@ const pages = [
     page: 'vous-etes-aidant.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Vous êtes aidant' }],
     hero: '<h1>Vous êtes un proche aidant</h1><p>Vous équipez le domicile d\'un parent, d\'un conjoint ou d\'un voisin ? Nous vous guidons, sans jargon.</p>',
+    heroImage: 'services/conseil-domicile.webp',
+    heroAlt: 'Conseiller MHC expliquant l\'usage d\'un matériel à domicile',
     body: `
       <p>C'est souvent vous qui décidez et qui vous déplacez. Nous le savons, et nous sommes là pour vous conseiller rapidement.</p>
       <div class="guide-list">
@@ -94,6 +162,8 @@ const pages = [
     page: 'prise-en-charge.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Vous êtes patient', href: 'vous-etes-patient.html' }, { label: 'Prise en charge' }],
     hero: '<h1>Ce qui est pris en charge</h1><p>Combien ça coûte ? En général : rien à avancer. Voici comment ça fonctionne.</p>',
+    heroImage: 'parcours/etape-3-carte-vitale.webp',
+    heroAlt: 'Lecture de la carte Vitale sur le lecteur SESAM-Vitale',
     body: `
       <h2>Le tiers payant intégral</h2>
       <p>Pour le matériel médical prescrit et pris en charge par l'Assurance Maladie, <strong>vous n'avancez aucun frais</strong>. Nous facturons directement :</p>
@@ -119,6 +189,8 @@ const pages = [
     page: 'equipe.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: "L'équipe" }],
     hero: '<h1>L\'équipe</h1><p>Un magasin, des gens. Venez nous rencontrer à Marseille.</p>',
+    heroImage: 'magasin/interieur-accueil.webp',
+    heroAlt: 'Accueil du magasin MHC à Marseille',
     body: `
       <p>Chez MHC, vous n'êtes pas face à un site anonyme. Vous avez une adresse, un numéro de téléphone, et des conseillers qui vous accueillent au magasin.</p>
       <div class="team-grid">
@@ -142,6 +214,8 @@ const pages = [
     page: 'aidant/equiper-domicile.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Aidant', href: 'vous-etes-aidant.html' }, { label: 'Équiper le domicile' }],
     hero: '<h1>Équiper le domicile d\'un proche</h1><p>Par où commencer quand un parent ou un conjoint perd en autonomie ?</p>',
+    heroImage: 'domicile/installation-lit-domicile.webp',
+    heroAlt: 'Techniciens MHC installant un lit médicalisé à domicile',
     body: `
       <h2>1. Faites le point avec le médecin</h2>
       <p>La première étape : une ordonnance adaptée à la situation. Le médecin traitant ou le gériatre prescrit le matériel nécessaire.</p>
@@ -167,6 +241,8 @@ const pages = [
     page: 'aidant/retour-hospitalisation.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Aidant', href: 'vous-etes-aidant.html' }, { label: "Retour d'hospitalisation" }],
     hero: '<h1>Retour d\'hospitalisation</h1><p>La sortie d\'hôpital approche ? Voici comment préparer le retour à domicile.</p>',
+    heroImage: 'domicile/lit-medicalise-domicile.webp',
+    heroAlt: 'Lit médicalisé installé dans une chambre à domicile',
     body: `
       <h2>Anticipez la sortie</h2>
       <p>L'hôpital ou le service social vous indique le matériel nécessaire. Dès que vous avez l'ordonnance, contactez-nous — nous pouvons souvent équiper <strong>le jour même</strong> pour les produits en stock.</p>
@@ -191,6 +267,8 @@ const pages = [
     page: 'aidant/prevenir-chutes.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Aidant', href: 'vous-etes-aidant.html' }, { label: 'Prévenir les chutes' }],
     hero: '<h1>Prévenir les chutes</h1><p>Les chutes sont la première cause d\'accidents domestiques chez les personnes âgées. Voici comment agir.</p>',
+    heroImage: 'magasin/rayon-salle-de-bain.webp',
+    heroAlt: 'Équipements de sécurité salle de bain en magasin MHC',
     body: `
       <h2>Évaluer les risques</h2>
       <p>Observez les déplacements de votre proche à la maison : escaliers, salle de bain, chambre, passages étroits. Notez les moments de difficulté.</p>
@@ -220,6 +298,8 @@ const pages = [
     page: 'equipements/mobilite.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Mobilité' }],
     hero: '<h1>Mobilité et déplacement</h1><p>Fauteuils roulants, déambulateurs, cannes — retrouver votre autonomie en toute sécurité.</p>',
+    heroImage: 'magasin/rayon-mobilite.webp',
+    heroAlt: 'Rayon mobilité du magasin MHC',
     body: `
       ${img('magasin/rayon-mobilite.webp', 'Fauteuils roulants et déambulateurs dans le rayon mobilité du magasin MHC', '../', true)}
       <ul>
@@ -242,6 +322,8 @@ const pages = [
     page: 'equipements/chambre.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Chambre' }],
     hero: '<h1>Chambre et lit médicalisé</h1><p>Confort, sécurité et prévention des escarres pour des nuits sereines.</p>',
+    heroImage: 'magasin/rayon-chambre.webp',
+    heroAlt: 'Lit médicalisé présenté en magasin',
     body: `
       ${img('magasin/rayon-chambre.webp', 'Lit médicalisé et table de lit présentés en magasin', '../', true)}
       ${img('domicile/lit-medicalise-domicile.webp', 'Lit médicalisé installé dans une chambre à domicile', '../')}
@@ -267,6 +349,8 @@ const pages = [
     page: 'equipements/salle-de-bain.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Salle de bain' }],
     hero: '<h1>Salle de bain et toilettes</h1><p>Sécuriser les moments du quotidien : toilette, douche, transferts.</p>',
+    heroImage: 'magasin/rayon-salle-de-bain.webp',
+    heroAlt: 'Rayon salle de bain du magasin MHC',
     body: `
       ${img('magasin/rayon-salle-de-bain.webp', 'Chaise de douche, tabouret et rehausseur WC dans le rayon salle de bain', '../', true)}
       <ul>
@@ -289,6 +373,8 @@ const pages = [
     page: 'equipements/vie-quotidienne.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Vie quotidienne' }],
     hero: '<h1>Vie quotidienne</h1><p>Des aides pour conserver votre autonomie au quotidien.</p>',
+    heroImage: 'magasin/rayon-vie-quotidienne.webp',
+    heroAlt: 'Aides à la vie quotidienne en magasin',
     body: `
       ${img('magasin/rayon-vie-quotidienne.webp', 'Aides aux repas et à la préhension présentées en magasin', '../', true)}
       <ul>
@@ -311,6 +397,8 @@ const pages = [
     page: 'equipements/diagnostic.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Équipements', href: 'nos-equipements.html' }, { label: 'Diagnostic' }],
     hero: '<h1>Diagnostic et surveillance</h1><p>Le suivi à domicile, prescrit par votre médecin.</p>',
+    heroImage: 'magasin/rayon-diagnostic.webp',
+    heroAlt: 'Rayon diagnostic du magasin MHC',
     body: `
       ${img('magasin/rayon-diagnostic.webp', 'Tensiomètres, thermomètres et oxymètres du rayon diagnostic', '../', true)}
       <ul>
@@ -331,6 +419,8 @@ const pages = [
     page: 'comment-ca-marche.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Vous êtes patient', href: 'vous-etes-patient.html' }, { label: 'Comment ça marche' }],
     hero: '<h1>Comment ça marche</h1><p>Apportez votre ordonnance, on s\'occupe du reste.</p>',
+    heroImage: 'parcours/etape-1-ordonnance.webp',
+    heroAlt: 'Ordonnance et carte Vitale sur le comptoir MHC',
     body: `
       <div class="journey-steps">
         <div class="journey-step">
@@ -386,6 +476,8 @@ const pages = [
     page: 'nos-equipements.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Nos équipements' }],
     hero: '<h1>Nos équipements</h1><p>Matériel médical pour le maintien à domicile. Pas de prix affiché.</p>',
+    heroImage: 'magasin/rayon-mobilite.webp',
+    heroAlt: 'Catalogue mobilité du magasin MHC',
     body: `
       <div class="note">Nous ne commercialisons que les dispositifs des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché.</div>
       <div class="guide-list guide-list--equip">
@@ -404,6 +496,8 @@ const pages = [
     page: 'parapharmacie.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Parapharmacie' }],
     hero: '<h1>Parapharmacie</h1><p>Hygiène, soin et bien-être pour toute la famille — en vente libre, sans ordonnance.</p>',
+    heroImage: 'magasin/rayon-parapharmacie.webp',
+    heroAlt: 'Rayon parapharmacie du magasin MHC',
     body: `
       ${img('magasin/rayon-parapharmacie.webp', 'Rayon hygiène, soin et nutrition bébé du magasin MHC', '', true)}
       <div class="note">Ces produits sont proposés en vente libre, sans ordonnance. Ils ne font pas l'objet d'une prise en charge par l'Assurance Maladie. Notre équipe vous conseille en magasin.</div>
@@ -450,6 +544,8 @@ const pages = [
     page: 'professionnels-sante.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Professionnels de santé' }],
     hero: '<h1>Un partenaire pour vos patients</h1><p>De la prescription à l\'installation, nous gérons tout l\'administratif.</p>',
+    heroImage: 'services/partenariat-soignants.webp',
+    heroAlt: 'Échange de dossier entre conseiller MHC et soignante',
     body: `
       ${img('services/partenariat-soignants.webp', 'Échange d\'un dossier entre un conseiller MHC et une soignante', '', true)}
       <h2>Ce que nous délivrons</h2>
@@ -466,7 +562,7 @@ const pages = [
       <p>Nous accompagnons vos patients à domicile pour l'installation et l'utilisation du matériel.</p>
       <h2>Contact prescripteurs</h2>
       <p><strong>Tél :</strong> <a href="tel:+33777778947">07 77 77 89 47</a> · <strong>Email :</strong> <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></p>
-      <p><a href="contact.html?type=prescripteur" class="btn btn--primary">Demande d'équipement pour un patient</a></p>`
+      ${prescriberForm}`
   },
   {
     file: 'le-magasin.html',
@@ -475,6 +571,8 @@ const pages = [
     page: 'le-magasin.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Le magasin' }],
     hero: '<h1>Le magasin</h1><p>Un magasin, des gens. Venez nous rencontrer à Marseille.</p>',
+    heroImage: 'devanture-jour.webp',
+    heroAlt: 'Devanture du magasin MHC à Marseille',
     body: `
       <div class="store-photo" style="margin-bottom:24px;">
         <img src="assets/images/magasin/interieur-accueil.webp" alt="Intérieur du magasin MHC Medical Health and Care" width="1600" loading="lazy" decoding="async">
@@ -510,6 +608,8 @@ const pages = [
     page: 'contact.html',
     trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Contact' }],
     hero: '<h1>Contact</h1><p>Le plus simple : appelez-nous.</p>',
+    heroImage: 'magasin/interieur-accueil.webp',
+    heroAlt: 'Accueil du magasin MHC',
     body: `
       <div class="store-grid">
         <div>
@@ -581,6 +681,8 @@ for (const p of pages) {
     page: p.page,
     base: p.base || '',
     trail: p.trail,
+    heroImage: p.heroImage || null,
+    heroAlt: p.heroAlt || '',
     content: { hero: p.hero, body: p.body }
   });
   writeFileSync(join(ROOT, p.file), html);

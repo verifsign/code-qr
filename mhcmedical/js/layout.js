@@ -42,7 +42,7 @@
     return '<ul class="footer__list">' +
       '<li><a href="' + link('comment-ca-marche.html') + '">Comment ça marche</a></li>' +
       '<li><a href="' + link('nos-equipements.html') + '">Nos équipements</a></li>' +
-      '<li><a href="' + link('professionnels-sante.html') + '">Professionnels de santé</a></li>' +
+      '<li><a href="' + link('professionnels-sante.html') + '">Professionnels</a></li>' +
       '<li><a href="' + link('le-magasin.html') + '">Le magasin</a></li>' +
       '<li><a href="' + link('equipe.html') + '">L\'équipe</a></li>' +
       '<li><a href="' + link('contact.html') + '">Contact</a></li>' +
@@ -75,9 +75,9 @@
         '<div class="footer__grid">' +
           '<div><p class="footer__title">' + cfg.name + '</p>' +
             '<p>SAS MEDICAL HEALTH AND CARE<br>' + cfg.address + ', ' + cfg.city + '<br>' +
-            'SIREN 983 367 699 — RCS Marseille<br>' +
-            '<a href="tel:' + cfg.phoneTel + '">' + cfg.phone + '</a> · ' +
-            '<a href="mailto:' + cfg.email + '">' + cfg.email + '</a></p></div>' +
+            'SIREN 983 367 699 — RCS Marseille</p>' +
+            '<a href="tel:' + cfg.phoneTel + '" class="footer__phone">' + cfg.phone + '</a><br>' +
+            '<a href="mailto:' + cfg.email + '">' + cfg.email + '</a></div>' +
           '<div><p class="footer__title">Navigation</p>' + renderFooterNav() + '</div>' +
           '<div><p class="footer__title">Informations légales</p>' +
             '<ul class="footer__list">' +

@@ -62,4 +62,16 @@
       if (err) err.style.display = 'block';
     }
   }
+
+  var prescripteurForm = document.getElementById('prescripteur-form');
+  if (prescripteurForm) {
+    var pTs = prescripteurForm.querySelector('[name="_ts"]');
+    if (pTs) {
+      pTs.value = String(Date.now());
+    }
+    if (location.search.includes('erreur')) {
+      var pErr = document.getElementById('prescripteur-error');
+      if (pErr) pErr.style.display = 'block';
+    }
+  }
 })();

@@ -134,6 +134,10 @@ Le site inclut un assistant maison relié à **Google Gemini** (clé API gratuit
 
 Sans `chat-config.php`, le bouton chat n'apparaît pas (ou répond « appelez-nous »).
 
+### Formulaire prescripteurs
+
+La page **Professionnels de santé** inclut un formulaire de demande d'équipement (`prescripteur.php`). Il utilise la même configuration SMTP que `contact-config.php`.
+
 ---
 
 ## SPF et DKIM (indispensable pour éviter le spam)
