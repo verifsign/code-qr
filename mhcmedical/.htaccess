@@ -49,6 +49,9 @@ AddDefaultCharset UTF-8
 <Files "contact-config.php">
   Require all denied
 </Files>
+<Files "chat-config.php">
+  Require all denied
+</Files>
 <FilesMatch "build-pages\.mjs$">
   Require all denied
 </FilesMatch>

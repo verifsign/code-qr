@@ -105,6 +105,37 @@ Sans `contact-config.php` configuré, le site retombe sur `mail()` (moins fiable
 
 ---
 
+## Assistant IA (chat gratuit)
+
+Le site inclut un assistant maison relié à **Google Gemini** (clé API gratuite).
+
+### Activation (5 minutes)
+
+1. Créez une clé gratuite sur [Google AI Studio](https://aistudio.google.com/apikey)
+2. Sur le serveur OVH, copiez `chat-config.example.php` en **`chat-config.php`** (à la racine du site)
+3. Collez votre clé API dans `chat-config.php`
+4. Vérifiez que `enabled` est à `true`
+5. Ouvrez le site, acceptez les cookies : le bouton 💬 apparaît en bas à droite
+
+### Fichiers concernés
+
+| Fichier | Rôle |
+|---|---|
+| `chat-config.php` | Clé API (secret, non versionné) |
+| `api/chat.php` | Point d'entrée JSON |
+| `lib/gemini.php` | Appel API côté serveur |
+| `js/chat.js` | Widget dans le navigateur |
+
+### Limites du gratuit
+
+- Quotas Google AI Studio (suffisant pour un site vitrine)
+- Limite anti-abus : ~30 messages/heure par visiteur
+- L'assistant ne remplace pas un conseil médical — il oriente vers le **07 77 77 89 47**
+
+Sans `chat-config.php`, le bouton chat n'apparaît pas (ou répond « appelez-nous »).
+
+---
+
 ## SPF et DKIM (indispensable pour éviter le spam)
 
 Dans OVH → **Noms de domaine** → `mhcmedical.fr` → **Zone DNS** :

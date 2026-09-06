@@ -34,12 +34,16 @@
       localStorage.setItem(COOKIE_KEY, 'accepted');
       banner.classList.remove('is-visible');
       setCookieBannerOpen(false);
+      document.dispatchEvent(new CustomEvent('mhc:cookies-accepted'));
     });
     banner.querySelector('[data-cookie-refuse]')?.addEventListener('click', function () {
       localStorage.setItem(COOKIE_KEY, 'refused');
       banner.classList.remove('is-visible');
       setCookieBannerOpen(false);
+      document.dispatchEvent(new CustomEvent('mhc:cookies-refused'));
     });
+  } else if (localStorage.getItem(COOKIE_KEY) === 'accepted') {
+    document.dispatchEvent(new CustomEvent('mhc:cookies-accepted'));
   }
 
   // Contact form — prescripteur prefill + erreur URL + timestamp anti-bot

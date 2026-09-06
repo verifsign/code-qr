@@ -94,11 +94,36 @@
         '</div></div></footer>' +
       '<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Gestion des cookies">' +
         '<div class="cookie-banner__inner">' +
-          '<p>Ce site utilise des cookies pour améliorer votre expérience. <a href="' + link('cookies.html') + '">En savoir plus</a></p>' +
+          '<p>Ce site utilise des cookies pour améliorer votre expérience. L\'assistant en ligne nécessite votre accord. <a href="' + link('cookies.html') + '">En savoir plus</a></p>' +
           '<div class="cookie-banner__actions">' +
             '<button class="btn btn--primary" data-cookie-accept>Accepter</button>' +
             '<button class="btn btn--secondary" data-cookie-refuse>Refuser</button>' +
-          '</div></div></div>';
+          '</div></div></div>' +
+      '<div id="mhc-chat" class="chat-widget" hidden>' +
+        '<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Assistant MHC" hidden>' +
+          '<div class="chat-panel__header">' +
+            '<div><p class="chat-panel__title">Assistant MHC</p><p class="chat-panel__subtitle">Infos magasin & parcours patient</p></div>' +
+            '<button type="button" class="chat-close" id="chat-close" aria-label="Fermer le chat">×</button>' +
+          '</div>' +
+          '<div class="chat-messages" id="chat-messages"></div>' +
+          '<div class="chat-consent" id="chat-consent" hidden>' +
+            'Pour utiliser l\'assistant, acceptez les cookies via le bandeau en bas de page. ' +
+            '<a href="' + link('politique-confidentialite.html') + '">Politique de confidentialité</a>.' +
+          '</div>' +
+          '<form class="chat-form" id="chat-form" hidden>' +
+            '<input type="text" id="chat-input" name="message" maxlength="500" placeholder="Votre question…" autocomplete="off" aria-label="Votre message">' +
+            '<button type="submit">Envoyer</button>' +
+          '</form>' +
+        '</div>' +
+        '<button type="button" class="chat-toggle" id="chat-toggle" aria-expanded="false" aria-controls="chat-panel" title="Ouvrir l\'assistant">💬</button>' +
+      '</div>';
+  }
+
+  if (!document.querySelector('script[src*="chat.js"]')) {
+    var chatScript = document.createElement('script');
+    chatScript.src = base + 'js/chat.js';
+    chatScript.defer = true;
+    document.body.appendChild(chatScript);
   }
 
   var crumbsEl = document.getElementById('breadcrumbs');
