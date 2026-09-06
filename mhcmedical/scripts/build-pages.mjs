@@ -388,7 +388,7 @@ const pages = [
     hero: '<h1>Nos équipements</h1><p>Matériel médical pour le maintien à domicile. Pas de prix affiché.</p>',
     body: `
       <div class="note">Nous ne commercialisons que les dispositifs des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché.</div>
-      <div class="guide-list">
+      <div class="guide-list guide-list--equip">
         <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-mobilite.webp" alt="Fauteuils roulants et déambulateurs dans le rayon mobilité du magasin MHC" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
         <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-chambre.webp" alt="Lit médicalisé et table de lit présentés en magasin" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
         <a href="equipements/salle-de-bain.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/magasin/rayon-salle-de-bain.webp" alt="Chaise de douche, tabouret et rehausseur WC dans le rayon salle de bain" width="280" loading="lazy" decoding="async"></div><div><h2 class="guide-item__title">Salle de bain et WC</h2><p class="guide-item__text">Barres d'appui, sièges de douche, rehausseurs</p></div></a>
@@ -411,7 +411,6 @@ const pages = [
       <section class="parapharma-section">
         <h2>Hygiène &amp; soin</h2>
         <p>Soins du visage et du corps, hygiène quotidienne, soins des mains et des pieds, produits d'hygiène nasale, désinfection et petits soins.</p>
-        ${img('magasin/rayon-parapharmacie.webp', 'Rayon hygiène, soin et nutrition bébé du magasin MHC')}
       </section>
       <section class="parapharma-section">
         <h2>Espace bébé</h2>
