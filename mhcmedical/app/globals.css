@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  --brand-blue: #1a4e8a;
+  --brand-teal: #2a9d8f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #212529;
+  background: #fff;
+}
+
+/* Focus visible pour accessibilité clavier */
+:focus-visible {
+  outline: 3px solid #2a9d8f;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Texte minimum 17px pour accessibilité */
+p, li, td, th, label, input, textarea, select {
+  font-size: clamp(17px, 1.1vw, 18px);
+}
+
+h1 { font-size: clamp(28px, 4vw, 52px); line-height: 1.15; font-weight: 800; }
+h2 { font-size: clamp(24px, 3vw, 38px); line-height: 1.2; font-weight: 700; }
+h3 { font-size: clamp(20px, 2.2vw, 26px); line-height: 1.3; font-weight: 600; }
+h4 { font-size: clamp(18px, 1.8vw, 22px); line-height: 1.4; font-weight: 600; }
+
+/* Boutons larges pour mobiles et seniors */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 52px;
+  min-width: 160px;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #1a4e8a;
+  color: white;
+  border-color: #1a4e8a;
+}
+.btn-primary:hover {
+  background-color: #123a6a;
+  border-color: #123a6a;
+}
+
+.btn-secondary {
+  background-color: #2a9d8f;
+  color: white;
+  border-color: #2a9d8f;
+}
+.btn-secondary:hover {
+  background-color: #228b7e;
+  border-color: #228b7e;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #1a4e8a;
+  border-color: #1a4e8a;
+}
+.btn-outline:hover {
+  background-color: #1a4e8a;
+  color: white;
+}
+
+.btn-outline-white {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+.btn-outline-white:hover {
+  background-color: white;
+  color: #1a4e8a;
+}
+
+/* Section padding */
+.section {
+  padding: 72px 0;
+}
+
+.section-sm {
+  padding: 48px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Card styles */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border: 1px solid #e9ecef;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 6px 24px rgba(26, 78, 138, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Utilitaires */
+.text-balance {
+  text-wrap: balance;
+}
