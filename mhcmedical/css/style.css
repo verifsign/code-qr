@@ -306,6 +306,7 @@ a:hover { color: var(--teal); }
   .guide-item { flex-direction: column; }
   .guide-item__img { width: 100%; }
   .guide-item__img img { height: 160px; }
+  .guide-list--equip .guide-item__img img { height: 180px; }
 }
 
 /* Team grid */
