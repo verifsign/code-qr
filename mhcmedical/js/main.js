@@ -42,9 +42,13 @@
     });
   }
 
-  // Contact form — prescripteur prefill + erreur URL
+  // Contact form — prescripteur prefill + erreur URL + timestamp anti-bot
   var form = document.getElementById('contact-form');
   if (form) {
+    var tsInput = form.querySelector('[name="_ts"]');
+    if (tsInput) {
+      tsInput.value = String(Date.now());
+    }
     var typeSelect = form.querySelector('[name="type"]');
     if (typeSelect && location.search.includes('type=prescripteur')) {
       typeSelect.value = 'prescripteur';

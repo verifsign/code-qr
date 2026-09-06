@@ -7,6 +7,27 @@ ErrorDocument 404 /404.html
 # UTF-8
 AddDefaultCharset UTF-8
 
+# --- Redirections (avant mise en ligne : canonique https://mhcmedical.fr) ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS forcé (compatible proxy OVH)
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # www → non-www
+  RewriteCond %{HTTP_HOST} ^www\.mhcmedical\.fr$ [NC]
+  RewriteRule ^ https://mhcmedical.fr%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Compression gzip
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
 # Cache léger pour assets statiques
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -24,7 +45,10 @@ AddDefaultCharset UTF-8
   Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# Bloquer l'accès aux scripts de build
+# Bloquer l'accès aux fichiers sensibles
+<Files "contact-config.php">
+  Require all denied
+</Files>
 <FilesMatch "build-pages\.mjs$">
   Require all denied
 </FilesMatch>

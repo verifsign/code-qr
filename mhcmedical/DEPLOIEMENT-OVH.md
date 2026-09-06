@@ -74,12 +74,50 @@ Un fichier `mhcmedical-site.zip` est fourni dans le projet. Sur OVH :
 ## Vérifications après mise en ligne
 
 - [ ] https://mhcmedical.fr s'affiche correctement
+- [ ] http://mhcmedical.fr et http://www.mhcmedical.fr redirigent vers https://mhcmedical.fr
 - [ ] Le téléphone **07 77 77 89 47** est cliquable sur mobile
 - [ ] Les photos (devanture, mobilité) s'affichent
 - [ ] https://mhcmedical.fr/le-magasin.html fonctionne
 - [ ] https://mhcmedical.fr/equipements/mobilite.html fonctionne
 - [ ] La page 404 s'affiche sur une URL inexistante
 - [ ] Le bandeau cookies apparaît à la première visite
+- [ ] Le formulaire de contact envoie un email (test depuis une adresse externe)
+
+---
+
+## Formulaire de contact — SMTP
+
+1. Dans l'espace client OVH, créez l'adresse **contact@mhcmedical.fr** (MX Plan ou Email Pro)
+2. Sur le serveur, copiez `contact-config.example.php` en `contact-config.php`
+3. Renseignez le mot de passe SMTP dans `contact-config.php`
+4. Testez l'envoi depuis https://mhcmedical.fr/contact.html
+
+Paramètres OVH habituels :
+
+| Paramètre | Valeur |
+|---|---|
+| Serveur SMTP | `ssl0.ovh.net` |
+| Port | `465` (SSL) ou `587` (TLS) |
+| Utilisateur | `contact@mhcmedical.fr` |
+| Mot de passe | Mot de passe de la boîte mail |
+
+Sans `contact-config.php` configuré, le site retombe sur `mail()` (moins fiable).
+
+---
+
+## SPF et DKIM (indispensable pour éviter le spam)
+
+Dans OVH → **Noms de domaine** → `mhcmedical.fr` → **Zone DNS** :
+
+1. **SPF** — enregistrement TXT sur `@` (ou compléter l'existant) :
+   ```
+   v=spf1 include:mx.ovh.com -all
+   ```
+   (Adapter si vous utilisez un autre fournisseur mail.)
+
+2. **DKIM** — OVH le propose dans la configuration de la messagerie (Email → DKIM). Activez-le et ajoutez l'enregistrement TXT fourni par OVH.
+
+3. Attendez la propagation DNS (quelques heures), puis testez avec [mail-tester.com](https://www.mail-tester.com).
 
 ---
 
