@@ -20,37 +20,38 @@
 
   initNav();
 
+  function setCookieBannerOpen(open) {
+    document.body.classList.toggle('cookie-banner-open', open);
+  }
+
   // Cookie banner
   var COOKIE_KEY = 'mhc_cookie_consent';
   var banner = document.getElementById('cookie-banner');
   if (banner && !localStorage.getItem(COOKIE_KEY)) {
     banner.classList.add('is-visible');
+    setCookieBannerOpen(true);
     banner.querySelector('[data-cookie-accept]')?.addEventListener('click', function () {
       localStorage.setItem(COOKIE_KEY, 'accepted');
       banner.classList.remove('is-visible');
+      setCookieBannerOpen(false);
     });
     banner.querySelector('[data-cookie-refuse]')?.addEventListener('click', function () {
       localStorage.setItem(COOKIE_KEY, 'refused');
       banner.classList.remove('is-visible');
+      setCookieBannerOpen(false);
     });
   }
 
-  // Contact form (mailto fallback)
+  // Contact form — prescripteur prefill + erreur URL
   var form = document.getElementById('contact-form');
   if (form) {
     var typeSelect = form.querySelector('[name="type"]');
     if (typeSelect && location.search.includes('type=prescripteur')) {
       typeSelect.value = 'prescripteur';
     }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var name = form.querySelector('[name="name"]').value;
-      var email = form.querySelector('[name="email"]').value;
-      var type = typeSelect ? typeSelect.value : 'patient';
-      var message = form.querySelector('[name="message"]').value;
-      var subject = encodeURIComponent(type === 'prescripteur' ? 'Demande prescripteur — MHC' : 'Contact depuis le site MHC');
-      var body = encodeURIComponent('Nom : ' + name + '\nEmail : ' + email + '\nProfil : ' + type + '\n\n' + message);
-      window.location.href = 'mailto:contact@mhcmedical.fr?subject=' + subject + '&body=' + body;
-    });
+    if (location.search.includes('erreur')) {
+      var err = document.getElementById('form-error');
+      if (err) err.style.display = 'block';
+    }
   }
 })();

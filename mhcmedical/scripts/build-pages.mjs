@@ -49,7 +49,8 @@ const cta = `<div class="cta-band">
 const note = `<div class="note">La prise en charge est effectuée selon les conditions en vigueur et sous réserve de l'accord de votre caisse d'assurance maladie.</div>`;
 
 function photo(file, alt, base = '') {
-  return `<div class="category-photo"><img src="${base}assets/images/${file}" alt="${alt}" loading="lazy"></div>`;
+  const webp = file.replace(/\.png$/, '.webp');
+  return `<div class="category-photo"><img src="${base}assets/images/${webp}" alt="${alt}" width="1600" loading="lazy"></div>`;
 }
 
 const pages = [
@@ -105,8 +106,10 @@ const pages = [
       <p>Certains matériels nécessitent l'accord du médecin conseil de votre caisse avant la délivrance. <strong>Nous constituons le dossier et assurons le suivi</strong> — vous n'avez rien à faire.</p>
       <h2>Achat ou location ?</h2>
       <p>Selon le type de matériel et la durée du besoin, la prise en charge peut être en achat ou en location. Nous vous expliquons ce qui est le plus adapté lors de votre visite.</p>
-      <h2>Ce que nous ne couvrons pas</h2>
-      <p>Nous ne commercialisons pas les dispositifs du Titre II (orthèses, semelles, genouillères, attelles). Si votre prescription concerne ce type de produit, votre médecin vous orientera vers un autre professionnel.</p>
+      <h2>Ce que nous ne couvrons pas en tiers payant</h2>
+      <p>Le <strong>tiers payant intégral</strong> de ce site concerne uniquement les dispositifs des <strong>Titres I et IV</strong> de la LPPR. Nous ne facturons pas en tiers payant les dispositifs du <strong>Titre II</strong> (orthèses, semelles, genouillères, attelles).</p>
+      <h2>Orthopédie et parapharmacie en magasin</h2>
+      <p>Notre enseigne propose également des produits d'<strong>orthopédie, de confort et de parapharmacie en vente libre</strong>, sans prescription ni prise en charge Assurance Maladie. Ces rayons sont distincts du matériel médical pris en charge décrit sur ce site.</p>
       ${cta}`
   },
   {
@@ -122,10 +125,10 @@ const pages = [
         <div class="team-card"><div class="team-card__photo" aria-hidden="true">👤</div><p class="team-card__name">Notre équipe</p><p class="team-card__role">Conseillers matériel médical</p></div>
       </div>
       <div class="store-photo" style="margin:24px 0;">
-        <img src="assets/images/magasin/interieur-accueil.png" alt="Accueil du magasin MHC à Marseille" loading="lazy">
+        <img src="assets/images/magasin/interieur-accueil.webp" alt="Accueil du magasin MHC à Marseille" width="1600" loading="lazy">
       </div>
       <div class="store-photo" style="margin:24px 0;">
-        <img src="assets/images/magasin-devanture.png" alt="Devanture du magasin MHC à Marseille" loading="lazy">
+        <img src="assets/images/magasin-devanture.webp" alt="Devanture du magasin MHC à Marseille" width="1600" loading="lazy">
       </div>
       <div class="note" style="margin-top:16px;"><strong>Photos de l'équipe à venir</strong> — avec l'accord de chaque collaborateur.</div>
       <p style="margin-top:24px;"><a href="le-magasin.html">Voir l'adresse et les horaires →</a></p>
@@ -359,11 +362,11 @@ const pages = [
     body: `
       <div class="note">Nous ne commercialisons que les dispositifs des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché.</div>
       <div class="guide-list">
-        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/mobilite.png" alt="Rayon mobilité MHC"></div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
-        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/chambre.png" alt="Lits médicalisés MHC"></div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
+        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/mobilite.webp" alt="Rayon mobilité MHC" width="280" loading="lazy"></div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
+        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/chambre.webp" alt="Lits médicalisés MHC" width="280" loading="lazy"></div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
         <a href="equipements/salle-de-bain.html" class="guide-item"><div class="guide-item__icon">🚿</div><div><h2 class="guide-item__title">Salle de bain et WC</h2><p class="guide-item__text">Barres d'appui, sièges de douche, rehausseurs</p></div></a>
         <a href="equipements/vie-quotidienne.html" class="guide-item"><div class="guide-item__icon">🍽️</div><div><h2 class="guide-item__title">Vie quotidienne</h2><p class="guide-item__text">Aides aux repas, habillage, préhension</p></div></a>
-        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/diagnostic.png" alt="Appareils médicaux MHC"></div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
+        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__img"><img src="assets/images/equipements/diagnostic.webp" alt="Appareils médicaux MHC" width="280" loading="lazy"></div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
       </div>
       ${cta}`
   },
@@ -396,10 +399,10 @@ const pages = [
     hero: '<h1>Le magasin</h1><p>Un magasin, des gens. Venez nous rencontrer à Marseille.</p>',
     body: `
       <div class="store-photo" style="margin-bottom:24px;">
-        <img src="assets/images/magasin/interieur-accueil.png" alt="Intérieur du magasin MHC Medical Health and Care" loading="lazy">
+        <img src="assets/images/magasin/interieur-accueil.webp" alt="Intérieur du magasin MHC Medical Health and Care" width="1600" loading="lazy">
       </div>
       <div class="store-photo" style="margin-bottom:32px;">
-        <img src="assets/images/magasin-devanture.png" alt="Devanture du magasin MHC Medical Health and Care à Marseille" loading="lazy">
+        <img src="assets/images/magasin-devanture.webp" alt="Devanture du magasin MHC Medical Health and Care à Marseille" width="1600" loading="lazy">
       </div>
       <div class="store-grid">
         <div class="store-info">
@@ -433,8 +436,13 @@ const pages = [
         </div>
         <div>
           <h2 style="margin-top:0;color:var(--blue);">Formulaire de contact</h2>
-          <form class="form" id="contact-form">
-            <div class="form-group"><label for="name">Votre nom</label><input type="text" id="name" name="name" required autocomplete="name"></div>
+          <div class="note" id="form-error" style="display:none;margin-bottom:16px;">Une erreur est survenue. Réessayez ou appelez le 07 77 77 89 47.</div>
+          <form class="form" id="contact-form" action="contact.php" method="post" novalidate>
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">Ne pas remplir</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <div class="form-group"><label for="name">Votre nom</label><input type="text" id="name" name="name" required autocomplete="name" maxlength="120"></div>
             <div class="form-group"><label for="email">Votre email</label><input type="email" id="email" name="email" required autocomplete="email"></div>
             <div class="form-group"><label for="type">Vous êtes</label>
               <select id="type" name="type">
@@ -444,13 +452,24 @@ const pages = [
               </select>
             </div>
             <div class="form-group"><label for="message">Votre message</label>
-              <textarea id="message" name="message" required placeholder="Sans informations médicales"></textarea>
+              <textarea id="message" name="message" required maxlength="5000" placeholder="Sans informations médicales"></textarea>
               <p class="form-hint">Ne mentionnez pas de données de santé. Appelez le 07 77 77 89 47 pour toute question médicale.</p>
             </div>
             <button type="submit" class="btn btn--primary">Envoyer</button>
           </form>
         </div>
       </div>`
+  },
+  {
+    file: 'contact-merci.html',
+    title: 'Message envoyé',
+    description: 'Votre message a bien été envoyé à MHC Medical Health and Care.',
+    page: 'contact-merci.html',
+    trail: [{ label: 'Accueil', href: 'index.html' }, { label: 'Contact', href: 'contact.html' }, { label: 'Message envoyé' }],
+    hero: '<h1>Merci pour votre message</h1><p>Nous vous répondrons dans les meilleurs délais.</p>',
+    body: `
+      <p>Pour une demande urgente, appelez-nous directement au <a href="tel:+33777778947"><strong>07 77 77 89 47</strong></a>.</p>
+      <p style="margin-top:24px;"><a href="index.html" class="btn btn--primary">Retour à l'accueil</a></p>`
   },
   {
     file: '404.html',
