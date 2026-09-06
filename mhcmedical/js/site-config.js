@@ -5,7 +5,7 @@ window.MHC = {
   email: 'contact@mhcmedical.fr',
   address: '185 avenue de Saint Louis',
   city: '13015 Marseille',
-  hours: 'Lun–ven 9h–12h / 14h30–18h',
+  hours: 'Lun–ven 9h–12h30 / 14h30–18h',
   url: 'https://mhcmedical.fr',
   nav: [
     { label: 'Accueil', href: 'index.html' },

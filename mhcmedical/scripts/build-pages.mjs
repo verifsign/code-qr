@@ -407,7 +407,7 @@ const pages = [
         <div>
           <h2 style="margin-top:0;color:var(--blue);">Nous appeler</h2>
           <p style="font-size:28px;font-weight:700;"><a href="tel:+33777778947">07 77 77 89 47</a></p>
-          <p>Lun–ven 9h–12h / 14h30–18h</p>
+          <p>Lun–ven 9h–12h30 / 14h30–18h</p>
           <h2>Email</h2><p><a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></p>
           <h2>Adresse</h2><p>185 avenue de Saint Louis, 13015 Marseille</p>
           <div class="note" style="margin-top:20px;"><strong>Pas de données de santé</strong> dans le formulaire. Pour une question médicale, appelez-nous.</div>
