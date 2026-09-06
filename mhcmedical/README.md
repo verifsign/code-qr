@@ -40,7 +40,16 @@ node scripts/build-pages.mjs
 
 ## Déploiement OVH
 
-Uploader le dossier `mhcmedical/` à la racine de `mhcmedical.fr`.
+**Guide complet :** voir [`DEPLOIEMENT-OVH.md`](DEPLOIEMENT-OVH.md)
+
+Résumé rapide :
+1. Espace client OVH → Hébergements → Gestionnaire de fichiers
+2. Ouvrir le dossier `www` (racine du domaine mhcmedical.fr)
+3. Uploader **tout le contenu** de ce dossier (pas le dossier lui-même)
+4. Vérifier que `index.html` est à la racine
+5. Ouvrir https://mhcmedical.fr
+
+Archive prête : `npm run zip` depuis ce dossier (génère `mhcmedical-site.zip`).
 
 ## Coordonnées
 

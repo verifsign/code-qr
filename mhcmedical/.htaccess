@@ -1,0 +1,30 @@
+# Configuration Apache — OVH mutualisé
+DirectoryIndex index.html
+
+# Page 404 personnalisée
+ErrorDocument 404 /404.html
+
+# UTF-8
+AddDefaultCharset UTF-8
+
+# Cache léger pour assets statiques
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# Sécurité basique
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Bloquer l'accès aux scripts de build
+<FilesMatch "build-pages\.mjs$">
+  Require all denied
+</FilesMatch>

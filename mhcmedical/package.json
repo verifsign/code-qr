@@ -1,0 +1,10 @@
+{
+  "name": "mhcmedical",
+  "private": true,
+  "description": "Site vitrine MHC Medical Health and Care — mhcmedical.fr",
+  "scripts": {
+    "serve": "npx serve . -p 4173",
+    "build": "node scripts/build-pages.mjs",
+    "zip": "cd .. && zip -r mhcmedical-site.zip mhcmedical -x 'mhcmedical/scripts/*' 'mhcmedical/node_modules/*' 'mhcmedical/.git/*'"
+  }
+}
