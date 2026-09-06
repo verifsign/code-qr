@@ -51,7 +51,8 @@
       <div class="hero__inner">
         <div class="hero__content">
           <h1 class="hero__title">Votre matériel médical, pris en charge.</h1>
-          <p class="hero__text">Nous équipons votre domicile et facturons directement l'Assurance Maladie et votre mutuelle. <span class="accent-strong">Vous n'avancez rien.</span></p>
+          <p class="hero__text">Nous équipons votre domicile et facturons directement l'Assurance Maladie et votre mutuelle.</p>
+          <p class="hero__claim">Vous n'avancez rien.</p>
           <div class="hero__actions">
             <a href="tel:+33777778947" class="btn btn--teal">Nous appeler</a>
             <a href="comment-ca-marche.html" class="btn btn--secondary">Comment ça marche</a>
@@ -114,22 +115,47 @@
       <div class="container">
         <h2 class="section__title">Nos équipements</h2>
         <p class="section__subtitle">Un catalogue complet pour le maintien à domicile, sans prix affiché.</p>
-        <div class="equip-grid">
-          <div class="equip-card">
-            <div class="category-photo" style="margin-bottom:12px;"><img src="assets/images/magasin/rayon-mobilite.webp" alt="Fauteuils roulants et déambulateurs dans le rayon mobilité du magasin MHC" width="1600" height="900" loading="lazy" decoding="async"></div>
-            <h3 class="equip-card__title">Mobilité et déplacement</h3><p class="equip-card__text">Fauteuils roulants, déambulateurs, cannes</p><a href="equipements/mobilite.html" class="btn btn--secondary" style="font-size:15px;padding:10px 20px;min-height:44px;">En savoir plus</a></div>
-          <div class="equip-card">
-            <div class="category-photo" style="margin-bottom:12px;"><img src="assets/images/magasin/rayon-chambre.webp" alt="Lit médicalisé et table de lit présentés en magasin" width="1600" height="900" loading="lazy" decoding="async"></div>
-            <h3 class="equip-card__title">Chambre</h3><p class="equip-card__text">Lits médicalisés, matelas anti-escarres, potences</p><a href="equipements/chambre.html" class="btn btn--secondary" style="font-size:15px;padding:10px 20px;min-height:44px;">En savoir plus</a></div>
-          <div class="equip-card">
-            <div class="category-photo" style="margin-bottom:12px;"><img src="assets/images/magasin/rayon-salle-de-bain.webp" alt="Chaise de douche, tabouret et rehausseur WC dans le rayon salle de bain" width="1600" height="900" loading="lazy" decoding="async"></div>
-            <h3 class="equip-card__title">Salle de bain et WC</h3><p class="equip-card__text">Barres d'appui, sièges de douche, rehausseurs</p><a href="equipements/salle-de-bain.html" class="btn btn--secondary" style="font-size:15px;padding:10px 20px;min-height:44px;">En savoir plus</a></div>
-          <div class="equip-card">
-            <div class="category-photo" style="margin-bottom:12px;"><img src="assets/images/magasin/rayon-vie-quotidienne.webp" alt="Aides aux repas et à la préhension présentées en magasin" width="1600" height="900" loading="lazy" decoding="async"></div>
-            <h3 class="equip-card__title">Vie quotidienne</h3><p class="equip-card__text">Aides aux repas, à l'habillage, à la préhension</p><a href="equipements/vie-quotidienne.html" class="btn btn--secondary" style="font-size:15px;padding:10px 20px;min-height:44px;">En savoir plus</a></div>
-          <div class="equip-card">
-            <div class="category-photo" style="margin-bottom:12px;"><img src="assets/images/magasin/rayon-diagnostic.webp" alt="Tensiomètres, thermomètres et oxymètres du rayon diagnostic" width="1600" height="900" loading="lazy" decoding="async"></div>
-            <h3 class="equip-card__title">Diagnostic et surveillance</h3><p class="equip-card__text">Tensiomètres, oxymètres, thermomètres</p><a href="equipements/diagnostic.html" class="btn btn--secondary" style="font-size:15px;padding:10px 20px;min-height:44px;">En savoir plus</a></div>
+        <div class="equip-mosaic">
+          <a href="equipements/mobilite.html" class="equip-mosaic__card equip-mosaic__card--featured">
+            <div class="equip-mosaic__img"><img src="assets/images/magasin/rayon-mobilite.webp" alt="Fauteuils roulants et déambulateurs dans le rayon mobilité du magasin MHC" width="1600" height="900" loading="lazy" decoding="async"></div>
+            <div class="equip-mosaic__body">
+              <h3 class="equip-mosaic__title">Mobilité et déplacement</h3>
+              <p class="equip-mosaic__text">Fauteuils roulants, déambulateurs, cannes</p>
+              <span class="equip-mosaic__link">En savoir plus →</span>
+            </div>
+          </a>
+          <a href="equipements/chambre.html" class="equip-mosaic__card">
+            <div class="equip-mosaic__img"><img src="assets/images/magasin/rayon-chambre.webp" alt="Lit médicalisé et table de lit présentés en magasin" width="1600" height="900" loading="lazy" decoding="async"></div>
+            <div class="equip-mosaic__body">
+              <h3 class="equip-mosaic__title">Chambre</h3>
+              <p class="equip-mosaic__text">Lits médicalisés, matelas anti-escarres, potences</p>
+              <span class="equip-mosaic__link">En savoir plus →</span>
+            </div>
+          </a>
+          <a href="equipements/salle-de-bain.html" class="equip-mosaic__card">
+            <div class="equip-mosaic__img"><img src="assets/images/magasin/rayon-salle-de-bain.webp" alt="Chaise de douche, tabouret et rehausseur WC dans le rayon salle de bain" width="1600" height="900" loading="lazy" decoding="async"></div>
+            <div class="equip-mosaic__body">
+              <h3 class="equip-mosaic__title">Salle de bain et WC</h3>
+              <p class="equip-mosaic__text">Barres d'appui, sièges de douche, rehausseurs</p>
+              <span class="equip-mosaic__link">En savoir plus →</span>
+            </div>
+          </a>
+          <a href="equipements/vie-quotidienne.html" class="equip-mosaic__card">
+            <div class="equip-mosaic__img"><img src="assets/images/magasin/rayon-vie-quotidienne.webp" alt="Aides aux repas et à la préhension présentées en magasin" width="1600" height="900" loading="lazy" decoding="async"></div>
+            <div class="equip-mosaic__body">
+              <h3 class="equip-mosaic__title">Vie quotidienne</h3>
+              <p class="equip-mosaic__text">Aides aux repas, à l'habillage, à la préhension</p>
+              <span class="equip-mosaic__link">En savoir plus →</span>
+            </div>
+          </a>
+          <a href="equipements/diagnostic.html" class="equip-mosaic__card">
+            <div class="equip-mosaic__img"><img src="assets/images/magasin/rayon-diagnostic.webp" alt="Tensiomètres, thermomètres et oxymètres du rayon diagnostic" width="1600" height="900" loading="lazy" decoding="async"></div>
+            <div class="equip-mosaic__body">
+              <h3 class="equip-mosaic__title">Diagnostic et surveillance</h3>
+              <p class="equip-mosaic__text">Tensiomètres, oxymètres, thermomètres</p>
+              <span class="equip-mosaic__link">En savoir plus →</span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -146,13 +172,13 @@
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="pro-banner">
+    <section class="section section--flush">
+      <div class="pro-banner pro-banner--full">
+        <div class="pro-banner__inner">
           <div class="pro-banner__img">
             <img src="assets/images/services/partenariat-soignants.webp" alt="Échange d'un dossier entre un conseiller MHC et une soignante" width="560" loading="lazy" decoding="async">
           </div>
-          <div>
+          <div class="pro-banner__content">
             <h2>Vous êtes médecin, infirmier, kinésithérapeute ?</h2>
             <p>Nous accompagnons vos patients de la prescription à l'installation, et gérons l'intégralité des démarches administratives. Un interlocuteur direct, des délais courts.</p>
           </div>
