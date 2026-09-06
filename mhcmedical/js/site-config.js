@@ -26,7 +26,7 @@ window.MHC = {
       ]
     },
     {
-      label: 'Nos équipements',
+      label: 'Équipements',
       children: [
         { label: 'Mobilité et déplacement', href: 'equipements/mobilite.html' },
         { label: 'Chambre et lit médicalisé', href: 'equipements/chambre.html' },
@@ -36,7 +36,7 @@ window.MHC = {
       ]
     },
     { label: 'Parapharmacie', href: 'parapharmacie.html' },
-    { label: 'Professionnels de santé', href: 'professionnels-sante.html' },
+    { label: 'Professionnels', href: 'professionnels-sante.html' },
     { label: 'Le magasin', href: 'le-magasin.html' },
     { label: 'Contact', href: 'contact.html' }
   ]
