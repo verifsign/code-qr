@@ -1,46 +1,55 @@
-# MHC Medical Health and Care — Site vitrine Phase 1
+# MHC Medical Health and Care — Site complet
 
 Site vitrine pour **mhcmedical.fr** — matériel médical à Marseille, tiers payant intégral.
 
-## Pages
+## Structure (22 pages)
 
-| Page | Fichier |
-|------|---------|
-| Accueil | `index.html` |
-| Comment ça marche | `comment-ca-marche.html` |
-| Nos équipements | `nos-equipements.html` |
-| Professionnels de santé | `professionnels-sante.html` |
-| Le magasin | `le-magasin.html` |
-| Contact | `contact.html` |
-| Mentions légales | `mentions-legales.html` |
-| Politique de confidentialité | `politique-confidentialite.html` |
-| Cookies | `cookies.html` |
-| Réclamations et matériovigilance | `reclamations.html` |
+```
+index.html                    Accueil
+vous-etes-patient.html        Hub patient
+vous-etes-aidant.html         Hub aidant
+comment-ca-marche.html        Parcours en 4 étapes
+prise-en-charge.html          Ce qui est pris en charge
+nos-equipements.html          Catalogue (5 catégories)
+equipements/                  Pages détaillées par catégorie
+aidant/                       3 guides aidants
+professionnels-sante.html     Espace prescripteurs
+le-magasin.html               Adresse, horaires, carte
+equipe.html                   L'équipe
+contact.html                  Téléphone + formulaire
+mentions-legales.html         Obligatoire
+politique-confidentialite.html
+cookies.html
+reclamations.html
+404.html
+sitemap.xml / robots.txt
+```
 
-## Prévisualisation locale
+## Prévisualisation
 
 ```bash
 cd mhcmedical
 npx serve . -p 4173
-# Ouvrir http://localhost:4173
+```
+
+## Régénérer les pages
+
+```bash
+node scripts/build-pages.mjs
 ```
 
 ## Déploiement OVH
 
-1. Uploader le contenu du dossier `mhcmedical/` à la racine du domaine `mhcmedical.fr`
-2. Configurer le domaine dans l'espace client OVH
-3. Vérifier que `index.html` est la page par défaut
+Uploader le dossier `mhcmedical/` à la racine de `mhcmedical.fr`.
 
-## À compléter avant mise en ligne
+## Coordonnées
 
-- [ ] Capital social et numéro de TVA intracommunautaire (mentions légales)
-- [ ] Nom du directeur de publication
-- [ ] Contact matériovigilance dédié
-- [ ] Photos devanture et équipe
-- [ ] Backend formulaire de contact (actuellement ouvre le client mail)
+- **07 77 77 89 47** · **contact@mhcmedical.fr**
+- 185 avenue de Saint Louis, 13015 Marseille
 
-## Coordonnées intégrées
+## À compléter
 
-- **Téléphone :** 07 77 77 89 47
-- **Email :** contact@mhcmedical.fr
-- **Adresse :** 185 avenue de Saint Louis, 13015 Marseille
+- Capital social, TVA, directeur de publication
+- Contact matériovigilance
+- Photos devanture et équipe
+- Backend formulaire (actuellement mailto)

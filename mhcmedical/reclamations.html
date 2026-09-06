@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-base="">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,61 +7,27 @@
   <link rel="icon" href="assets/images/logo-icon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <a href="#main" class="skip-link">Aller au contenu principal</a>
-  <header class="header">
-    <div class="header__inner">
-      <a href="index.html" class="logo"><img src="assets/images/logo-icon.png" alt="MHC Medical Health and Care" width="220" height="52"></a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
-      <nav class="nav" id="main-nav" aria-label="Navigation principale">
-        <a href="index.html">Accueil</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-
+<body data-page="reclamations.html">
+  <div id="site-header"></div>
   <main id="main">
-    <div class="page-hero">
-      <div class="container">
-        <h1>Réclamations et matériovigilance</h1>
-      </div>
-    </div>
-    <div class="content">
-      <div class="container">
-
-        <h2>Réclamations</h2>
-        <p>Si vous souhaitez formuler une réclamation concernant nos services ou un produit délivré, vous pouvez nous contacter :</p>
-        <ul>
-          <li><strong>Par téléphone :</strong> <a href="tel:+33777778947">07 77 77 89 47</a></li>
-          <li><strong>Par email :</strong> <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></li>
-          <li><strong>Par courrier :</strong> SAS MEDICAL HEALTH AND CARE — 185 avenue de Saint Louis, 13015 Marseille</li>
-        </ul>
-        <p>Nous nous engageons à traiter votre réclamation dans les meilleurs délais et à vous apporter une réponse écrite.</p>
-
-        <h2>Matériovigilance</h2>
-        <p>Conformément à la réglementation sur les dispositifs médicaux, nous assurons la surveillance des incidents et risques liés aux produits que nous délivrons.</p>
-        <p>Si vous constatez un incident ou un dysfonctionnement lié à un dispositif médical, signalez-le immédiatement :</p>
-        <ul>
-          <li><strong>Contact matériovigilance :</strong> [à compléter]</li>
-          <li><strong>Email :</strong> <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></li>
-          <li><strong>Téléphone :</strong> <a href="tel:+33777778947">07 77 77 89 47</a></li>
-        </ul>
-        <p>Vous pouvez également signaler un incident directement à l'ANSM (Agence nationale de sécurité du médicament) via le portail de signalement : <a href="https://signalement.social-sante.gouv.fr" rel="noopener">signalement.social-sante.gouv.fr</a></p>
-
-        <div class="note">Les dispositifs médicaux sont des produits de santé réglementés portant le marquage CE. Tout incident doit être signalé sans délai.</div>
-
-        <p><a href="index.html">← Retour à l'accueil</a></p>
-      </div>
-    </div>
+    <div class="page-hero"><div class="container"><h1>Réclamations et matériovigilance</h1></div></div>
+    <div class="content"><div class="container">
+      <h2>Réclamations</h2>
+      <p>Tél : <a href="tel:+33777778947">07 77 77 89 47</a> · Email : <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a><br>
+      Courrier : SAS MEDICAL HEALTH AND CARE, 185 av. de Saint Louis, 13015 Marseille</p>
+      <h2>Matériovigilance</h2>
+      <p>Signalez tout incident lié à un dispositif médical :</p>
+      <ul>
+        <li>Contact matériovigilance : [à compléter]</li>
+        <li>Email : <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></li>
+        <li>ANSM : <a href="https://signalement.social-sante.gouv.fr" rel="noopener">signalement.social-sante.gouv.fr</a></li>
+      </ul>
+      <div class="note">Dispositifs médicaux réglementés, marquage CE. Tout incident doit être signalé sans délai.</div>
+    </div></div>
   </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__bottom" style="border:none;padding-top:0;">
-        <p>© 2026 MHC Medical Health and Care — <a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a> · <a href="cookies.html">Cookies</a></p>
-      </div>
-    </div>
-  </footer>
+  <div id="site-footer"></div>
+  <script src="js/site-config.js"></script>
+  <script src="js/layout.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

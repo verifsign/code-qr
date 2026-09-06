@@ -1,152 +1,40 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-base="">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nos équipements — MHC Medical Health and Care</title>
-  <meta name="description" content="Catalogue de matériel médical à Marseille : mobilité, chambre, salle de bain, vie quotidienne, diagnostic. Prise en charge CPAM et mutuelle.">
+  <meta name="description" content="Catalogue matériel médical Marseille : mobilité, chambre, salle de bain, vie quotidienne, diagnostic.">
   <link rel="icon" href="assets/images/logo-icon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-page="nos-equipements.html">
   <a href="#main" class="skip-link">Aller au contenu principal</a>
-  <div class="top-bar" role="complementary" aria-label="Coordonnées">
-    <div class="top-bar__inner">
-      <a href="tel:+33777778947" class="top-bar__phone">07 77 77 89 47</a>
-      <span class="top-bar__sep">|</span>
-      <span>Lun–ven 9h–12h / 14h30–18h</span>
-      <span class="top-bar__sep">|</span>
-      <span>185 av. de Saint Louis, 13015 Marseille</span>
-      <span class="top-bar__sep">|</span>
-      <a href="contact.html">Nous écrire</a>
-    </div>
-  </div>
-  <header class="header">
-    <div class="header__inner">
-      <a href="index.html" class="logo"><img src="assets/images/logo-horizontal.png" alt="MHC Medical Health and Care" width="220" height="52"></a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
-      <nav class="nav" id="main-nav" aria-label="Navigation principale">
-        <a href="index.html">Accueil</a>
-        <a href="comment-ca-marche.html">Comment ça marche</a>
-        <a href="nos-equipements.html" aria-current="page">Nos équipements</a>
-        <a href="professionnels-sante.html">Professionnels de santé</a>
-        <a href="le-magasin.html">Le magasin</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-
+  <div id="site-header"></div>
   <main id="main">
     <div class="page-hero">
       <div class="container">
-        <h1>Nos équipements</h1>
-        <p>Matériel médical pour le maintien à domicile. Pas de prix affiché — la prise en charge dépend de votre prescription et de votre situation.</p>
+        <div id="breadcrumbs" data-trail='[{"label":"Accueil","href":"index.html"},{"label":"Nos équipements"}]'></div>
+        <h1>Nos équipements</h1><p>Matériel médical pour le maintien à domicile. Pas de prix affiché.</p>
       </div>
     </div>
-
-    <div class="content">
-      <div class="container">
-
-        <div class="note">Nous ne commercialisons que des dispositifs médicaux relevant des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché sur ce site. Pour toute question, appelez-nous ou venez au magasin.</div>
-
-        <h2 id="mobilite">Mobilité et déplacement</h2>
-        <p>Pour retrouver votre autonomie et vous déplacer en toute sécurité :</p>
-        <ul>
-          <li>Fauteuils roulants (manuel et électrique)</li>
-          <li>Déambulateurs et rollators</li>
-          <li>Cannes de marche et cannes anglaises</li>
-          <li>Verticalisateurs et lève-personnes</li>
-        </ul>
-
-        <h2 id="chambre">Chambre et lit médicalisé</h2>
-        <p>Pour un confort optimal et la prévention des escarres :</p>
-        <ul>
-          <li>Lits médicalisés et lits articulés</li>
-          <li>Matelas anti-escarres et surmatelas</li>
-          <li>Potences et barres de lit</li>
-          <li>Tables de lit et accessoires</li>
-        </ul>
-
-        <h2 id="salle-de-bain">Salle de bain et toilettes</h2>
-        <p>Pour sécuriser les moments du quotidien :</p>
-        <ul>
-          <li>Barres d'appui murales et de baignoire</li>
-          <li>Sièges de douche et de bain</li>
-          <li>Rehausseurs de WC</li>
-          <li>Chaises percées</li>
-        </ul>
-
-        <h2 id="vie-quotidienne">Vie quotidienne</h2>
-        <p>Des aides pour conserver votre autonomie au quotidien :</p>
-        <ul>
-          <li>Aides aux repas (couverts ergonomiques, plateaux)</li>
-          <li>Aides à l'habillage</li>
-          <li>Aides à la préhension</li>
-          <li>Protection et incontinence</li>
-        </ul>
-
-        <h2 id="diagnostic">Diagnostic et surveillance</h2>
-        <p>Pour le suivi à domicile :</p>
-        <ul>
-          <li>Tensiomètres</li>
-          <li>Oxymètres de pouls</li>
-          <li>Thermomètres</li>
-          <li>Matériel de surveillance prescrit</li>
-        </ul>
-
-        <div style="margin-top:48px;text-align:center;">
-          <p style="font-size:19px;margin-bottom:20px;">Vous avez une ordonnance ? Venez nous voir ou appelez-nous.</p>
-          <a href="tel:+33777778947" class="btn btn--primary">07 77 77 89 47</a>
-          <a href="comment-ca-marche.html" class="btn btn--secondary" style="margin-left:12px;">Comment ça marche</a>
-        </div>
-
+    <div class="content"><div class="container">
+      <div class="note">Nous ne commercialisons que les dispositifs des Titres I et IV de la LPPR. Aucun prix ni montant de remboursement n'est affiché.</div>
+      <div class="guide-list">
+        <a href="equipements/mobilite.html" class="guide-item"><div class="guide-item__icon">🦽</div><div><h2 class="guide-item__title">Mobilité et déplacement</h2><p class="guide-item__text">Fauteuils roulants, déambulateurs, cannes</p></div></a>
+        <a href="equipements/chambre.html" class="guide-item"><div class="guide-item__icon">🛏️</div><div><h2 class="guide-item__title">Chambre et lit médicalisé</h2><p class="guide-item__text">Lits, matelas anti-escarres, potences</p></div></a>
+        <a href="equipements/salle-de-bain.html" class="guide-item"><div class="guide-item__icon">🚿</div><div><h2 class="guide-item__title">Salle de bain et WC</h2><p class="guide-item__text">Barres d'appui, sièges de douche, rehausseurs</p></div></a>
+        <a href="equipements/vie-quotidienne.html" class="guide-item"><div class="guide-item__icon">🍽️</div><div><h2 class="guide-item__title">Vie quotidienne</h2><p class="guide-item__text">Aides aux repas, habillage, préhension</p></div></a>
+        <a href="equipements/diagnostic.html" class="guide-item"><div class="guide-item__icon">💓</div><div><h2 class="guide-item__title">Diagnostic et surveillance</h2><p class="guide-item__text">Tensiomètres, oxymètres, thermomètres</p></div></a>
       </div>
-    </div>
+      <div class="cta-band">
+  <p>Une question ? Appelez-nous, c'est le plus simple.</p>
+  <a href="tel:+33777778947" class="btn btn--primary">07 77 77 89 47</a>
+</div></div></div>
   </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__grid">
-        <div>
-          <p class="footer__title">MHC Medical Health and Care</p>
-          <p>SAS MEDICAL HEALTH AND CARE<br>185 avenue de Saint Louis, 13015 Marseille<br>
-          <a href="tel:+33777778947">07 77 77 89 47</a> · <a href="mailto:contact@mhcmedical.fr">contact@mhcmedical.fr</a></p>
-        </div>
-        <div>
-          <p class="footer__title">Navigation</p>
-          <ul class="footer__list">
-            <li><a href="comment-ca-marche.html">Comment ça marche</a></li>
-            <li><a href="nos-equipements.html">Nos équipements</a></li>
-            <li><a href="professionnels-sante.html">Professionnels de santé</a></li>
-            <li><a href="le-magasin.html">Le magasin</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer__title">Informations légales</p>
-          <ul class="footer__list">
-            <li><a href="mentions-legales.html">Mentions légales</a></li>
-            <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
-            <li><a href="cookies.html">Gestion des cookies</a></li>
-            <li><a href="reclamations.html">Réclamations et matériovigilance</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <p>© 2026 MHC Medical Health and Care — Tous droits réservés</p>
-      </div>
-    </div>
-  </footer>
-
-  <div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Gestion des cookies">
-    <div class="cookie-banner__inner">
-      <p>Ce site utilise des cookies pour améliorer votre expérience. <a href="cookies.html">En savoir plus</a></p>
-      <div class="cookie-banner__actions">
-        <button class="btn btn--primary" data-cookie-accept>Accepter</button>
-        <button class="btn btn--secondary" data-cookie-refuse>Refuser</button>
-      </div>
-    </div>
-  </div>
+  <div id="site-footer"></div>
+  <script src="js/site-config.js"></script>
+  <script src="js/layout.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

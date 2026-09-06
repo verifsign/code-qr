@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-base="">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,65 +7,24 @@
   <link rel="icon" href="assets/images/logo-icon.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <a href="#main" class="skip-link">Aller au contenu principal</a>
-  <header class="header">
-    <div class="header__inner">
-      <a href="index.html" class="logo"><img src="assets/images/logo-horizontal.png" alt="MHC Medical Health and Care" width="220" height="52"></a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
-      <nav class="nav" id="main-nav" aria-label="Navigation principale">
-        <a href="index.html">Accueil</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-
+<body data-page="cookies.html">
+  <div id="site-header"></div>
   <main id="main">
-    <div class="page-hero">
-      <div class="container">
-        <h1>Gestion des cookies</h1>
-      </div>
-    </div>
-    <div class="content">
-      <div class="container">
-
-        <h2>Qu'est-ce qu'un cookie ?</h2>
-        <p>Un cookie est un petit fichier texte déposé sur votre appareil lors de la visite d'un site web. Il permet de mémoriser certaines informations.</p>
-
-        <h2>Cookies utilisés sur ce site</h2>
-
-        <h3>Cookies strictement nécessaires</h3>
-        <p>Ces cookies sont indispensables au fonctionnement du site. Ils ne nécessitent pas votre consentement.</p>
-        <ul>
-          <li><strong>mhc_cookie_consent</strong> — mémorise votre choix concernant les cookies (accepté/refusé). Durée : 13 mois.</li>
-        </ul>
-
-        <h3>Cookies tiers</h3>
-        <p>La carte Google Maps intégrée sur la page « Le magasin » peut déposer des cookies tiers. Ces cookies ne sont chargés que si vous acceptez les cookies via le bandeau.</p>
-
-        <h2>Gérer vos préférences</h2>
-        <p>Lors de votre première visite, un bandeau vous permet d'accepter ou de refuser les cookies. Vous pouvez modifier votre choix à tout moment en supprimant les cookies de votre navigateur et en rechargeant la page.</p>
-
-        <h2>Paramétrer votre navigateur</h2>
-        <p>Vous pouvez configurer votre navigateur pour refuser les cookies :</p>
-        <ul>
-          <li><a href="https://support.google.com/chrome/answer/95647" rel="noopener">Google Chrome</a></li>
-          <li><a href="https://support.mozilla.org/fr/kb/activer-desactiver-cookies" rel="noopener">Mozilla Firefox</a></li>
-          <li><a href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac" rel="noopener">Safari</a></li>
-        </ul>
-
-        <p><a href="index.html">← Retour à l'accueil</a></p>
-      </div>
-    </div>
+    <div class="page-hero"><div class="container"><h1>Gestion des cookies</h1></div></div>
+    <div class="content"><div class="container">
+      <h2>Cookies utilisés</h2>
+      <ul>
+        <li><strong>mhc_cookie_consent</strong> — mémorise votre choix (13 mois)</li>
+      </ul>
+      <h2>Cookies tiers</h2>
+      <p>Google Maps sur la page magasin peut déposer des cookies si vous les acceptez.</p>
+      <h2>Gérer vos préférences</h2>
+      <p>Utilisez le bandeau à votre première visite, ou supprimez les cookies de votre navigateur.</p>
+    </div></div>
   </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__bottom" style="border:none;padding-top:0;">
-        <p>© 2026 MHC Medical Health and Care — <a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a> · <a href="cookies.html">Cookies</a></p>
-      </div>
-    </div>
-  </footer>
+  <div id="site-footer"></div>
+  <script src="js/site-config.js"></script>
+  <script src="js/layout.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
