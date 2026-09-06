@@ -1,0 +1,12 @@
+{
+  "name": "mhc-medical-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Site vitrine Medical Health and Care — matériel médical à Marseille (Phase 1)",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "npm run build && npx --yes serve public -p 4174",
+    "dev": "npm run build && npx --yes serve public -p 4174"
+  }
+}
