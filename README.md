@@ -59,7 +59,7 @@ Workflow par stagiaire :
 3. `POST .../sceller` avec le chemin du PDF → SHA-256 + export JSON + QR
 4. Insérer le PNG `output/qr-{id}.png` dans l'attestation
 
-La page statique accepte aussi l'API CRM : `?id=XXX&api=http://localhost:5050`
+La page statique accepte aussi l'API CRM en développement local : `?id=XXX&api=http://localhost:5050` (les API distantes passées via `?api=` sont ignorées sur les domaines publics).
 
 ---
 

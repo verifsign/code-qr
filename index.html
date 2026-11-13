@@ -132,8 +132,11 @@
   function getApiBase(){
     var params = new URLSearchParams(location.search);
     var fromQuery = params.get('api');
-    if(fromQuery) return fromQuery.replace(/\/?$/, '');
-    if(window.VERIF_API_BASE) return String(window.VERIF_API_BASE).replace(/\/?$/, '');
+    if(fromQuery){
+      var trustedQueryApi = Verification.getTrustedQueryApiBase(fromQuery, location.href);
+      if(trustedQueryApi) return trustedQueryApi;
+    }
+    if(window.VERIF_API_BASE) return Verification.trimApiBase(window.VERIF_API_BASE);
     return null;
   }
 
