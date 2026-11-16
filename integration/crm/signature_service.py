@@ -200,14 +200,19 @@ class SignatureService:
                 (envelope_id,)).fetchone()
             if not env:
                 raise ValueError('Enveloppe introuvable')
+            if env['statut'] == 'Terminé':
+                raise ValueError('Enveloppe déjà scellée')
 
-            hash_pdf = None
             fichier_pdf = env['fichier_pdf']
             path = pdf_path or (os.path.join(self.output_folder, fichier_pdf) if fichier_pdf else None)
-            if path and os.path.isfile(path):
-                hash_pdf = sha256_file(path)
-                if not fichier_pdf:
-                    fichier_pdf = os.path.basename(path)
+            if not path:
+                raise ValueError('pdf_path requis pour sceller l\'enveloppe')
+            if not os.path.isfile(path):
+                raise ValueError(f'PDF introuvable: {path}')
+
+            hash_pdf = sha256_file(path)
+            if not fichier_pdf:
+                fichier_pdf = os.path.basename(path)
 
             scelle_le = format_signe_le()
             c.execute('''
