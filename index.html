@@ -93,9 +93,9 @@
     var html = ''
       + '<div class="head">'
       +   '<h1>Attestation de signature électronique</h1>'
-      +   '<p>Conforme au règlement eIDAS · norme ISO 27001</p>'
+      +   '<p>Informations enregistrées au moment de la signature</p>'
       +   (isComplete(data)
-          ? '<div class="valid"><span class="dot"></span> Signature vérifiée — Enveloppe terminée</div>'
+          ? '<div class="valid"><span class="dot"></span> Enveloppe terminée</div>'
           : '')
       + '</div>'
       + '<div class="body">'
@@ -108,8 +108,9 @@
       +   (seal ? '<div class="kv" style="margin-top:14px"><div class="k">Scellé le</div><div class="v">' + Verification.esc(seal) + '</div></div>' : '')
       +   (sha ? '<h2>Empreinte SHA-256</h2><div class="mono">' + Verification.esc(sha) + '</div>' : '')
       +   '<div class="foot">'
-      +     'Ce document a été signé électroniquement conformément au règlement (UE) n°910/2014 (eIDAS). '
-      +     'L\'intégrité est garantie par l\'empreinte SHA-256.'
+      +     'Cette page présente les informations enregistrées au moment de la signature. '
+      +     'Elle ne constitue pas une signature électronique qualifiée au sens du règlement (UE) n°910/2014 (eIDAS).'
+      +     (sha ? '<br>Pour vérifier l\'intégrité, calculez le SHA-256 du PDF et comparez-le à cette empreinte.' : '')
       +     (org ? '<br><span class="brand">' + Verification.esc(org) + '</span>' : '')
       +   '</div>'
       + '</div>';
