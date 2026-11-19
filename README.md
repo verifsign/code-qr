@@ -8,12 +8,13 @@ Page web responsive (mobile + ordinateur) pour afficher les informations de sign
 CRM (signature réelle) → export JSON → data/envelopes/{id}.json → QR code → scan → page de vérification
 ```
 
-Deux modes supportés :
+Mode supporté :
 
 | Mode | URL QR | Usage |
 |------|--------|-------|
 | **id** (recommandé) | `https://…/code-qr/?id=A7B7434617A74` | Court, scalable, une fiche JSON par stagiaire |
-| **hash** | `https://…/code-qr/#d=<données encodées>` | Autonome, sans fichier serveur (URL plus longue) |
+
+Le mode historique `#d=<données encodées>` est désactivé : les données embarquées dans l'URL peuvent être modifiées par n'importe qui et ne doivent pas être affichées comme une signature vérifiée.
 
 ## Démo locale
 
@@ -32,8 +33,6 @@ npm run qr -- --id A7B7434617A74
 # Depuis un export CRM
 npm run qr -- --file docs/exemple-export-crm.json
 
-# Mode hash (données embarquées dans l'URL)
-npm run qr -- --file data/envelopes/A7B7434617A74.json --mode hash
 ```
 
 Le PNG est créé dans `output/qr-{id}.png`. Intégrez cette image dans votre PDF d'attestation.

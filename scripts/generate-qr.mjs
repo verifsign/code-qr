@@ -5,7 +5,7 @@
  * Usage:
  *   node scripts/generate-qr.mjs --id A7B7434617A74
  *   node scripts/generate-qr.mjs --file data/envelopes/A7B7434617A74.json
- *   node scripts/generate-qr.mjs --file envelope.json --mode hash --out qr.png
+ *   node scripts/generate-qr.mjs --file envelope.json --out qr.png
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -26,7 +26,7 @@ function parseArgs(argv){
     else if(a === '--base') out.base = argv[++i];
     else if(a === '--out') out.out = argv[++i];
     else if(a === '--help' || a === '-h'){
-      console.log(`Usage: npm run qr -- [--id ID | --file path.json] [--mode id|hash] [--base URL] [--out file.png]`);
+      console.log(`Usage: npm run qr -- [--id ID | --file path.json] [--mode id] [--base URL] [--out file.png]`);
       process.exit(0);
     }
   }
@@ -46,6 +46,9 @@ function loadEnvelope(args){
 }
 
 const args = parseArgs(process.argv);
+if(args.mode !== 'id'){
+  throw new Error('hash mode is not supported: QR verification must load trusted data by id');
+}
 const data = loadEnvelope(args);
 const url = Verification.buildVerificationUrl(args.base, data, args.mode);
 

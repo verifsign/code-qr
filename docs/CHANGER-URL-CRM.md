@@ -1,76 +1,36 @@
-# Changer l'URL du QR : didohss93 → verifsign
+# Changer l'URL du QR : utiliser un identifiant serveur
 
-Votre CRM génère déjà des PDF avec un QR au format `#d=...`.  
-**Il suffit de changer une ligne** : l'adresse de base. Le reste (données encodées) reste identique.
+Les anciens QR au format `#d=...` embarquaient toutes les données dans l'URL. Ce format est désactivé, car n'importe qui pouvait modifier ces données puis afficher une fausse attestation vérifiée.
 
 ## Remplacement à faire dans votre CRM
 
-Cherchez dans le code qui génère l'attestation / le QR :
+Générez désormais une URL courte qui contient uniquement l'identifiant de l'enveloppe enregistrée côté serveur :
 
 ```javascript
-// AVANT
-const VERIF_URL = "https://didohss93-gif.github.io/signelecverif/";
-```
-
-```javascript
-// APRÈS
 const VERIF_URL = "https://verifsign.github.io/code-qr/";
+const url = VERIF_URL + "?id=" + encodeURIComponent(envelopeId);
 ```
 
-Puis gardez la même construction d'URL :
-
-```javascript
-const data = {
-  env:  envelopeId,        // ex. A7B7434617A74
-  stag: nomStagiaire,      // ex. BAPTISTE BLETEAU
-  org:  organismeNom,      // ex. DATA FORMA
-  sigs: signataires.map(s => ({
-    n: s.nom,
-    r: s.role,
-    d: s.dateHeureEnregistree   // horodatage RÉEL
-  })),
-  seal: dateScellement       // ex. 11/07/2026 à 17:31
-};
-
-const url = VERIF_URL + "#d=" + toB64Url(data);
-```
+Publiez en parallèle la fiche JSON correspondante dans `data/envelopes/{envelopeId}.json`, ou servez les données via l'API CRM configurée.
 
 ## Exemple d'URL finale
 
-**Avant :**
 ```
-https://didohss93-gif.github.io/signelecverif/#d=eyJlbnYiOi...
+https://verifsign.github.io/code-qr/?id=A7B7434617A74
 ```
-
-**Après :**
-```
-https://verifsign.github.io/code-qr/#d=eyJlbnYiOi...
-```
-
-Le bloc `#d=eyJlbnYiOi...` **ne change pas** — seul le domaine change.
 
 ## Python (si votre CRM utilise Python pour le QR)
 
 ```python
 VERIF_URL = "https://verifsign.github.io/code-qr/"
-
-data = {
-    "env": envelope_id,
-    "stag": nom_stagiaire,
-    "org": organisme_nom,
-    "sigs": [{"n": s["nom"], "r": s["role"], "d": s["signe_le"]} for s in signataires],
-    "seal": date_scellement,
-}
-
-from integration.crm.qr_verification import encode_payload
-url = VERIF_URL + "#d=" + encode_payload(data)
+url = VERIF_URL + "?id=" + envelope_id
 ```
 
 ## Vérification
 
 Après déploiement GitHub Pages sur `verifsign/code-qr`, testez :
 
-https://verifsign.github.io/code-qr/#d=eyJlbnYiOiJBN0I3NDM0NjE3QTc0Iiwic3RhZyI6IkJBUFRJU1RFIEJMRVRFQVUiLCJvcmciOiJEQVRBIEZPUk1BIiwic2lncyI6W3sibiI6IlNJVEJPTiBSSUNIQVJEIiwiciI6IkfDqXJhbnQiLCJkIjoiMTEvMDUvMjAyNiDDoCAxNTowMiJ9LHsibiI6IkJBUFRJU1RFIEJMRVRFQVUiLCJyIjoiU3RhZ2lhaXJlIiwiZCI6IjExLzA1LzIwMjYgw6AgMTY6MzAifV0sInNlYWwiOiIxMS8wNy8yMDI2IMOgIDE3OjMxIn0
+https://verifsign.github.io/code-qr/?id=A7B7434617A74
 
 Vous devez voir : BAPTISTE BLETEAU, DATA FORMA, les 2 signataires, statut Terminé.
 
@@ -83,4 +43,4 @@ Vous devez voir : BAPTISTE BLETEAU, DATA FORMA, les 2 signataires, statut Termin
 
 ## Anciens PDF déjà imprimés
 
-Les PDF déjà générés avec l'ancien lien `didohss93` continueront de pointer vers l'ancienne page tant que ce dépôt reste en ligne. Seuls les **nouveaux** PDF générés après le changement de `VERIF_URL` utiliseront verifsign.
+Les PDF déjà générés avec un lien `#d=...` ne doivent pas être utilisés comme preuve vérifiée. Régénérez leur QR avec une URL `?id=...` quand une vérification fiable est nécessaire.

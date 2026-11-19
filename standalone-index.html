@@ -48,6 +48,11 @@
 </div>
 <script>
 (function(){
+  var card = document.getElementById('card');
+  card.innerHTML = '<div class="err">Les attestations embarqu\u00e9es dans l\'URL ne sont plus accept\u00e9es car elles peuvent \u00eatre modifi\u00e9es.<br>'
+    + 'Utilisez la page de v\u00e9rification avec un identifiant serveur (?id=...).</div>';
+  return;
+
   function b64urlDecode(s){
     s = s.replace(/-/g,'+').replace(/_/g,'/');
     while(s.length % 4) s += '=';
@@ -61,7 +66,6 @@
   var data = null;
   if(raw){ try{ data = JSON.parse(b64urlDecode(raw)); }catch(e){ data = null; } }
 
-  var card = document.getElementById('card');
   if(!data){
     card.innerHTML = '<div class="err">Aucune donn\u00e9e de signature \u00e0 afficher.<br>'
       + 'Cette page s\'ouvre en scannant le QR code d\'une attestation.</div>';

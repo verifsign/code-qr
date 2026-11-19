@@ -118,15 +118,9 @@
     document.title = 'Vérification — ' + id;
   }
 
-  function loadFromHash(){
+  function hasUnsignedHashPayload(){
     var raw = (location.hash || '').replace(/^#/, '');
-    if(raw.indexOf('d=') === 0) raw = raw.slice(2);
-    if(!raw) return null;
-    try{
-      return Verification.normalizePayload(Verification.decodePayload(raw));
-    }catch(e){
-      return null;
-    }
+    return raw.indexOf('d=') === 0;
   }
 
   function getApiBase(){
@@ -149,15 +143,13 @@
       });
   }
 
-  var hashData = loadFromHash();
-  if(hashData){
-    render(Verification.normalizePayload(hashData));
-    return;
-  }
-
   var params = new URLSearchParams(location.search);
   var id = params.get('id');
   if(!id){
+    if(hasUnsignedHashPayload()){
+      showError('Les attestations embarquées dans l\'URL ne sont plus acceptées car elles peuvent être modifiées.<br>Scannez un QR code avec identifiant serveur (?id=...).');
+      return;
+    }
     showError('Aucune donnée de signature à afficher.<br>Cette page s\'ouvre en scannant le QR code d\'une attestation.');
     return;
   }

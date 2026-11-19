@@ -82,7 +82,7 @@ def build_envelope_payload(crm: dict) -> dict:
 def build_verification_url(base_url: str, data: dict, mode: str = 'id') -> str:
     root = base_url.rstrip('/') + '/'
     if mode == 'hash':
-        return root + '#d=' + encode_payload(data)
+        raise ValueError('hash mode is not supported: QR verification must load trusted data by id')
     eid = data.get('id')
     if not eid:
         raise ValueError('data.id requis pour le mode id')
@@ -91,12 +91,8 @@ def build_verification_url(base_url: str, data: dict, mode: str = 'id') -> str:
 
 def build_legacy_hash_url(base_url: str, env: str, stag: str, org: str,
                           sigs: list, seal: str = '') -> str:
-    """URL QR au format actuel du CRM (env/stag/seal dans le hash #d=)."""
-    payload = {'env': env, 'stag': stag, 'org': org, 'sigs': sigs}
-    if seal:
-        payload['seal'] = seal
-    root = base_url.rstrip('/') + '/'
-    return root + '#d=' + encode_payload(payload)
+    """Legacy hash QR URLs are unsigned and must not be generated."""
+    raise ValueError('hash mode is not supported: QR verification must load trusted data by id')
 
 
 def generate_qr_png(url: str, output_path: str, size: int = 512) -> None:
