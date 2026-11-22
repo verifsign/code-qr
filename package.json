@@ -6,6 +6,7 @@
   "scripts": {
     "qr": "node scripts/generate-qr.mjs",
     "sync": "node scripts/sync-envelope.mjs",
+    "test": "node test/verification-state.test.mjs",
     "serve": "npx --yes serve . -p 4173"
   },
   "dependencies": {

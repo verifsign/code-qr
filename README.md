@@ -13,7 +13,7 @@ Deux modes supportés :
 | Mode | URL QR | Usage |
 |------|--------|-------|
 | **id** (recommandé) | `https://…/code-qr/?id=A7B7434617A74` | Court, scalable, une fiche JSON par stagiaire |
-| **hash** | `https://…/code-qr/#d=<données encodées>` | Autonome, sans fichier serveur (URL plus longue) |
+| **hash** | `https://…/code-qr/#d=<données encodées>` | Autonome, sans fichier serveur (URL plus longue), affiché comme non vérifié |
 
 ## Démo locale
 
@@ -35,6 +35,11 @@ npm run qr -- --file docs/exemple-export-crm.json
 # Mode hash (données embarquées dans l'URL)
 npm run qr -- --file data/envelopes/A7B7434617A74.json --mode hash
 ```
+
+Le mode `hash` embarque les données dans l'URL : il ne doit pas être présenté
+comme une preuve indépendante, car toute personne peut fabriquer une URL du même
+format. Utilisez le mode `id` pour afficher une attestation vérifiée depuis le
+registre JSON/API.
 
 Le PNG est créé dans `output/qr-{id}.png`. Intégrez cette image dans votre PDF d'attestation.
 

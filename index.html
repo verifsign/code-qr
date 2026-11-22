@@ -15,10 +15,14 @@
   .head{ background:linear-gradient(135deg,var(--navy),var(--navy2)); color:#fff; padding:22px 20px; }
   .head h1{ margin:0; font-size:19px; letter-spacing:.2px; }
   .head p{ margin:6px 0 0; font-size:12.5px; opacity:.85; }
-  .valid{ display:inline-flex; align-items:center; gap:7px; margin-top:14px;
-           background:rgba(43,166,111,.18); color:#c9f5df; border:1px solid rgba(43,166,111,.5);
+  .badge{ display:inline-flex; align-items:center; gap:7px; margin-top:14px;
            padding:6px 12px; border-radius:999px; font-size:12.5px; font-weight:600; }
+  .valid{
+           background:rgba(43,166,111,.18); color:#c9f5df; border:1px solid rgba(43,166,111,.5);
+  }
+  .warning{ background:rgba(255,183,77,.2); color:#fff1cc; border:1px solid rgba(255,183,77,.6); }
   .dot{ width:9px; height:9px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 3px rgba(43,166,111,.25); }
+  .warning .dot{ background:#FFB74D; box-shadow:0 0 0 3px rgba(255,183,77,.25); }
   .body{ padding:18px 20px 22px; }
   .kv{ display:grid; grid-template-columns:130px 1fr; gap:4px 12px; font-size:13.5px; margin-bottom:4px; }
   .kv .k{ color:var(--muted); }
@@ -63,17 +67,12 @@
     return '';
   }
 
-  function isComplete(data){
-    var seal = field(data, ['scelleLe', 'seal']);
-    var statut = field(data, ['statut', 'status']);
-    return !!(seal || /termin/i.test(statut));
-  }
-
-  function render(data){
+  function render(data, options){
     if(!data){
       showError('Aucune donnée de signature à afficher.<br>Cette page s\'ouvre en scannant le QR code d\'une attestation.');
       return;
     }
+    options = options || {};
 
     var id = field(data, ['id', 'env']) || '—';
     var beneficiaire = field(data, ['beneficiaire', 'stag']);
@@ -81,6 +80,7 @@
     var org = field(data, ['org']);
     var seal = field(data, ['scelleLe', 'seal']);
     var sha = field(data, ['sha']);
+    var state = Verification.getVerificationState(data, { trusted: options.trusted !== false });
 
     var sigs = (data.sigs || []).map(function(s){
       return '<div class="sig"><div class="top"><div>'
@@ -94,8 +94,8 @@
       + '<div class="head">'
       +   '<h1>Attestation de signature électronique</h1>'
       +   '<p>Conforme au règlement eIDAS · norme ISO 27001</p>'
-      +   (isComplete(data)
-          ? '<div class="valid"><span class="dot"></span> Signature vérifiée — Enveloppe terminée</div>'
+      +   (state.label
+          ? '<div class="badge ' + (state.trusted ? 'valid' : 'warning') + '"><span class="dot"></span> ' + Verification.esc(state.label) + '</div>'
           : '')
       + '</div>'
       + '<div class="body">'
@@ -110,6 +110,7 @@
       +   '<div class="foot">'
       +     'Ce document a été signé électroniquement conformément au règlement (UE) n°910/2014 (eIDAS). '
       +     'L\'intégrité est garantie par l\'empreinte SHA-256.'
+      +     (state.message ? '<br><strong>' + Verification.esc(state.message) + '</strong>' : '')
       +     (org ? '<br><span class="brand">' + Verification.esc(org) + '</span>' : '')
       +   '</div>'
       + '</div>';
@@ -151,7 +152,7 @@
 
   var hashData = loadFromHash();
   if(hashData){
-    render(Verification.normalizePayload(hashData));
+    render(Verification.normalizePayload(hashData), { trusted: false });
     return;
   }
 
@@ -163,7 +164,7 @@
   }
 
   loadFromId(id)
-    .then(function(d){ render(Verification.normalizePayload(d)); })
+    .then(function(d){ render(Verification.normalizePayload(d), { trusted: true }); })
     .catch(function(){
       showError('Document introuvable.<br>L\'identifiant <b>' + Verification.esc(id) + '</b> n\'existe pas ou n\'est plus disponible.');
     });
