@@ -67,6 +67,11 @@ Les champs sont pré-remplis depuis le CRM :
 - `dossiers.titre_formation` → document
 - `organismes.nom` → organisme
 
+Contraintes appliquées par le service :
+- un dossier ne peut avoir qu'une seule enveloppe active (`statut != "Terminé"`) ;
+- `dossier_id` est obligatoire et doit correspondre à une ligne existante de `dossiers` ;
+- les signataires initiaux ne sont importés que s'ils ont déjà un `signe_le` ou un indicateur `signed`.
+
 ### Étape B — Enregistrer chaque signature (horodatage RÉEL)
 
 Quand le gérant signe :
@@ -93,6 +98,10 @@ POST /api/signature/enveloppe/A7B7434617A74/signer
 
 **Important** : ne passez pas `signe_le` sauf pour réimporter des données historiques.
 Sans `signe_le`, le CRM enregistre `datetime.now()` au moment exact de l'appel API.
+L'adresse IP stockée vient de `request.remote_addr` dans Flask ; le champ `ip` du JSON n'est utilisé
+qu'en secours si Flask ne fournit pas d'adresse.
+
+Une enveloppe scellée refuse toute nouvelle signature (`Enveloppe déjà scellée`).
 
 ### Étape C — Sceller + générer le QR
 
@@ -117,6 +126,12 @@ Réponse :
 
 Insérez `output/qr-A7B7434617A74.png` dans votre PDF d'attestation.
 
+À retenir :
+- `generate_qr` vaut `true` par défaut sur `/sceller` ; mettez `false` pour exporter le JSON sans PNG.
+- Le SHA-256 est calculé seulement si `pdf_path` pointe vers un fichier accessible au CRM. Sinon
+  l'enveloppe est quand même marquée `Terminé`, mais `hash_pdf` reste vide.
+- Le scellement exporte aussi le payload JSON si `code_qr_data_dir` est configuré.
+
 ### Étape D — Scan
 
 Le QR ouvre la page (mobile + ordinateur) :
@@ -137,7 +152,37 @@ Le QR ouvre la page (mobile + ordinateur) :
 | `/verify?id=<id>` | GET | Page de vérification hébergée par le CRM |
 | `/api/signature/qr/<filename>` | GET | Télécharger le PNG |
 
-## 6. Exemple Python (génération attestation)
+## 6. Formats lus par la page de vérification
+
+La page statique `index.html` sait charger les données de trois façons :
+
+| Source | Exemple | Codepath |
+|--------|---------|----------|
+| Fichier GitHub Pages | `?id=A7B7434617A74` | lit `data/envelopes/A7B7434617A74.json` |
+| API CRM | `?id=A7B7434617A74&api=http://localhost:5050` | appelle `/api/signature/enveloppe/<id>` |
+| Payload embarqué | `#d=<base64url>` | décode les données sans fichier serveur |
+
+Le payload exposé par l'API est compact pour garder les QR courts :
+
+```json
+{
+  "id": "A7B7434617A74",
+  "org": "DATA FORMA",
+  "doc": "Dossier d'audit — BTS NDRC",
+  "statut": "Terminé",
+  "beneficiaire": "BAPTISTE BLETEAU",
+  "sha": "hash_sha256_si_disponible",
+  "sigs": [
+    { "n": "SITBON RICHARD", "r": "Gérant — DATA FORMA", "d": "02/07/2026 à 10:15" }
+  ]
+}
+```
+
+`scripts/sync-envelope.mjs` accepte le format CRM lisible (`organisme`, `intituleDocument`,
+`hashPdf`, `signataires[].signeLe`) puis écrit ce format compact dans `data/envelopes/`.
+Le mode legacy `#d=` reste supporté avec les champs `env`, `stag`, `org`, `sigs` et `seal`.
+
+## 7. Exemple Python (génération attestation)
 
 ```python
 # Après création du dossier stagiaire en base (dossier_id = 42)
@@ -158,18 +203,41 @@ print("URL QR :", qr['url'])
 print("PNG    :", qr['qr_path'])
 ```
 
-## 7. SHA-256 et QR dans le PDF
+## 8. Modes QR
+
+Le générateur utilise le mode `id` par défaut :
+
+```python
+qr = svc.generate_qr(eid)              # https://.../?id=A7B7434617A74
+qr_hash = svc.generate_qr(eid, 'hash') # https://.../#d=<payload>
+```
+
+Préférez `id` pour GitHub Pages ou l'API CRM : l'URL est courte et le JSON peut être corrigé sans
+regénérer le PDF. Utilisez `hash` seulement quand le QR doit être autonome, sans fichier
+`data/envelopes/{id}.json` ni API disponible.
+
+## 9. SHA-256 et QR dans le PDF
 
 Le QR est imprimé **dans** le PDF : calculez le hash sur le PDF **avant** d'y insérer le QR,
 ou scellez avec le PDF final et indiquez dans l'attestation que l'empreinte porte sur le contenu signé.
 
-## 8. Sync GitHub Pages
+## 10. Sync GitHub Pages
 
 Si `code_qr_data_dir` pointe vers `code-qr/data/envelopes/`, chaque scellement exporte
 automatiquement `{envelope_id}.json`. Il suffit de commit + push pour mettre à jour la page publique.
 
-## 9. Variables d'environnement
+## 11. Variables d'environnement
 
 | Variable | Défaut | Usage |
 |----------|--------|-------|
 | `VERIF_BASE_URL` | `https://verifsign.github.io/code-qr/` | URL encodée dans le QR |
+
+## 12. Dépannage rapide
+
+| Symptôme | Vérification |
+|----------|--------------|
+| `Document introuvable` sur GitHub Pages | Confirmer que `data/envelopes/<id>.json` existe et que l'URL utilise exactement le même `id`. |
+| `Document introuvable` avec `&api=` | Tester `/api/signature/enveloppe/<id>` côté CRM et vérifier que l'URL `api` n'a pas de slash final obligatoire. |
+| QR généré mais SHA vide | Vérifier que `pdf_path` existe sur le serveur Flask au moment de `/sceller`. |
+| Nouvelle signature refusée | L'enveloppe est déjà `Terminé`; créer une nouvelle enveloppe pour modifier le cycle de signature. |
+| JSON exporté mais page vide | Vérifier que les signataires contiennent `d`, `signeLe` ou `signedAt` dans les données source. |
