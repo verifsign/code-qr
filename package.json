@@ -6,7 +6,10 @@
   "scripts": {
     "qr": "node scripts/generate-qr.mjs",
     "sync": "node scripts/sync-envelope.mjs",
-    "serve": "npx --yes serve . -p 4173"
+    "serve": "npx --yes serve . -p 4173",
+    "test": "npm run test:node && npm run test:python",
+    "test:node": "node --test tests/*.test.mjs",
+    "test:python": "python3 -m unittest discover -s tests -p 'test_*.py'"
   },
   "dependencies": {
     "qrcode": "^1.5.4"
