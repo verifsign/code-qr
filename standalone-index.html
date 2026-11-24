@@ -55,6 +55,11 @@
   }
   function esc(x){ return String(x==null?'':x)
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function isComplete(data){
+    var seal = data.seal || data.scelleLe;
+    var status = data.statut || data.status || '';
+    return !!(seal || /termin/i.test(status));
+  }
 
   var raw = (location.hash || '').replace(/^#/,'');
   if(raw.indexOf('d=')===0) raw = raw.slice(2);
@@ -80,7 +85,7 @@
     + '<div class="head">'
     +   '<h1>Attestation de signature \u00e9lectronique</h1>'
     +   '<p>Conforme au r\u00e8glement eIDAS \u00b7 norme ISO 27001</p>'
-    +   '<div class="valid"><span class="dot"></span> Signature v\u00e9rifi\u00e9e \u2014 Enveloppe termin\u00e9e</div>'
+    +   (isComplete(data) ? '<div class="valid"><span class="dot"></span> Signature v\u00e9rifi\u00e9e \u2014 Enveloppe termin\u00e9e</div>' : '')
     + '</div>'
     + '<div class="body">'
     +   '<div class="kv"><div class="k">Identifiant</div><div class="v">'+esc(data.env||data.id||'\u2014')+'</div></div>'

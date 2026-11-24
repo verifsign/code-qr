@@ -6,7 +6,8 @@
   "scripts": {
     "qr": "node scripts/generate-qr.mjs",
     "sync": "node scripts/sync-envelope.mjs",
-    "serve": "npx --yes serve . -p 4173"
+    "serve": "npx --yes serve . -p 4173",
+    "test": "node tests/standalone-index.test.mjs"
   },
   "dependencies": {
     "qrcode": "^1.5.4"
